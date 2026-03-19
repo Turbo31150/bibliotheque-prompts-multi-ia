@@ -1,0 +1,46 @@
+{
+  "name": "jarvis-turbo",
+  "version": "3.0.0",
+  "description": "JARVIS Cluster — skills, agents, commands, hooks, and BrowserOS for managing the M1/M2/M3/OL1 GPU cluster, trading pipeline, multi-agent orchestration, cluster health monitoring, and autonomous web browsing.",
+  "author": "Turbo31150",
+  "skills": [
+    "skills/autotest-analysis",
+    "skills/cluster-management",
+    "skills/continuous-improvement",
+    "skills/failover-recovery",
+    "skills/mao-workflow",
+    "skills/performance-tuning",
+    "skills/security-audit",
+    "skills/smart-routing",
+    "skills/trading-pipeline",
+    "skills/weighted-orchestration",
+    "skills/browser-workflow"
+  ],
+  "agents": [
+    "agents/jarvis-auditor.md",
+    "agents/jarvis-auto-improver.md",
+    "agents/jarvis-code-reviewer.md",
+    "agents/jarvis-gpu-manager.md",
+    "agents/jarvis-voice-controller.md",
+    "agents/jarvis-devops.md",
+    "agents/jarvis-browser.md"
+  ],
+  "commands": [
+    "commands/cluster-check.md",
+    "commands/gpu-status.md",
+    "commands/consensus.md",
+    "commands/heal-cluster.md",
+    "commands/trading-scan.md",
+    "commands/models.md",
+    "commands/diagnostic.md",
+    "commands/browse.md",
+    "commands/trade.md",
+    "commands/content.md",
+    "commands/ask-ai.md",
+    "commands/os.md"
+  ],
+  "hooks": [
+    "hooks/gpu-thermal-guard.md",
+    "hooks/session-cluster-check.md"
+  ]
+}

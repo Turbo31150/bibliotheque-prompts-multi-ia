@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis Prompt Library Pro - Tous les outils</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        header { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 25px; padding: 40px; text-align: center; margin-bottom: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+        h1 { font-size: 3em; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; }
+        .filter-section { background: white; border-radius: 20px; padding: 30px; margin: 30px 0; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .filter-section h2 { margin-bottom: 8px; }
+        .filter-section h3 { font-size: 1em; color: #555; margin: 14px 0 6px 0; }
+        .tool-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 10px 0; }
+        .tool-btn { background: #f8f9ff; border: 2px solid #667eea; color: #667eea; padding: 10px 22px; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: bold; font-size: 0.9em; }
+        .tool-btn.active, .tool-btn:hover { background: #667eea; color: white; transform: translateY(-2px); }
+        .ctx-btn { background: #f8fff8; border: 2px solid #4ade80; color: #2d8a4e; padding: 10px 22px; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: bold; font-size: 0.9em; }
+        .ctx-btn.active, .ctx-btn:hover { background: #4ade80; color: white; transform: translateY(-2px); }
+        .app-btn { background: #fff8f0; border: 2px solid #f59e0b; color: #b45309; padding: 10px 22px; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: bold; font-size: 0.9em; }
+        .app-btn.active, .app-btn:hover { background: #f59e0b; color: white; transform: translateY(-2px); }
+        .filter-stats { text-align: center; margin: 12px 0 0 0; font-size: 0.95em; color: #667eea; font-weight: bold; }
+        .usage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px; margin-top: 30px; }
+        .usage-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-left: 6px solid #667eea; transition: all 0.3s; }
+        .usage-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+        .usage-card[data-tool="claude"] { border-left-color: #667eea; }
+        .usage-card[data-tool="gemini"] { border-left-color: #4285f4; }
+        .usage-card[data-tool="codex"] { border-left-color: #10a37f; }
+        .usage-card[data-tool="perplexity"] { border-left-color: #20b8cd; }
+        .usage-card[data-tool="browser"] { border-left-color: #f59e0b; }
+        .usage-card[data-tool="jarvis"] { border-left-color: #764ba2; }
+        .usage-title { font-size: 1.5em; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; }
+        .usage-icon { font-size: 1.6em; margin-right: 12px; }
+        .card-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75em; font-weight: bold; }
+        .badge-tool { background: #eef2ff; color: #667eea; }
+        .badge-ctx { background: #ecfdf5; color: #2d8a4e; }
+        .badge-app { background: #fff7ed; color: #b45309; }
+        .context { background: #f0f8ff; padding: 12px 18px; border-radius: 10px; margin: 15px 0; font-style: italic; color: #555; border-left: 4px solid #667eea; }
+        .prompt-box { background: #1e1e1e; color: #f8f8f2; padding: 25px; border-radius: 15px; font-family: 'Monaco', monospace; font-size: 0.92em; margin: 20px 0; position: relative; cursor: pointer; transition: all 0.3s; min-height: 120px; white-space: pre-wrap; }
+        .prompt-box:hover { box-shadow: inset 0 0 25px rgba(102,126,234,0.4); }
+        .copy-btn { position: absolute; top: 12px; right: 12px; background: #4ade80; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85em; opacity: 0; transition: all 0.3s; font-weight: bold; }
+        .prompt-box:hover .copy-btn { opacity: 1; transform: scale(1.05); }
+        .pricing { background: white; border-radius: 25px; padding: 50px; margin: 50px 0; box-shadow: 0 25px 50px rgba(0,0,0,0.15); text-align: center; }
+        .price { font-size: 4em; font-weight: bold; color: #667eea; margin: 20px 0; }
+        .btn { background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 18px 50px; border: none; border-radius: 50px; font-size: 1.3em; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; margin: 10px; box-shadow: 0 15px 35px rgba(102,126,234,0.4); }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(102,126,234,0.6); }
+        footer { text-align: center; padding: 40px; background: rgba(0,0,0,0.9); color: white; margin-top: 60px; border-radius: 25px; }
+        @media (max-width: 768px) { .usage-grid { grid-template-columns: 1fr; } .tool-buttons { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Jarvis Prompt Library Pro</h1>
+            <p>Tous les prompts classes par outil, application et contexte d'utilisation</p>
+            <div class="pricing">
+                <div class="price">€9.99/mois</div>
+                <p>✅ Acces illimite • ✅ Copy 1-clic • ✅ Mises a jour auto • ✅ Support Premium</p>
+                <a href="#" class="btn" onclick="subscribe()">💎 Abonnement Pro</a>
+                <a href="#" class="btn" onclick="demo()">🎯 Essai gratuit 7j</a>
+            </div>
+        </header>
+
+        <!-- FILTER: Par Modele IA -->
+        <div class="filter-section">
+            <h2>🤖 Filtre par Modele IA</h2>
+            <div class="tool-buttons" id="tool-filters">
+                <button class="tool-btn active" data-tool="all">🎯 Tous</button>
+                <button class="tool-btn" data-tool="claude">🔧 Claude Code</button>
+                <button class="tool-btn" data-tool="gemini">⚡ Gemini CLI</button>
+                <button class="tool-btn" data-tool="codex">💻 Codex/OpenAI</button>
+                <button class="tool-btn" data-tool="perplexity">🔍 Perplexity</button>
+                <button class="tool-btn" data-tool="browser">🌐 BrowserOS</button>
+                <button class="tool-btn" data-tool="jarvis">🤖 Jarvis Core</button>
+            </div>
+        </div>
+
+        <!-- FILTER: Par Application -->
+        <div class="filter-section">
+            <h2>💻 Filtre par Application</h2>
+            <div class="tool-buttons" id="app-filters">
+                <button class="app-btn active" data-app="all">🎯 Toutes</button>
+                <button class="app-btn" data-app="terminal">🖥️ Terminal CLI</button>
+                <button class="app-btn" data-app="browseros">🌐 BrowserOS</button>
+                <button class="app-btn" data-app="n8n">⚡ n8n</button>
+                <button class="app-btn" data-app="docker">🐳 Docker</button>
+                <button class="app-btn" data-app="telegram">📱 Telegram</button>
+                <button class="app-btn" data-app="ide">📝 VS Code / IDE</button>
+            </div>
+        </div>
+
+        <!-- FILTER: Par Contexte d'utilisation -->
+        <div class="filter-section">
+            <h2>📋 Filtre par Contexte d'utilisation</h2>
+            <div class="tool-buttons" id="context-filters">
+                <button class="ctx-btn active" data-context="all">🎯 Tout</button>
+                <button class="ctx-btn" data-context="setup">🔧 Setup</button>
+                <button class="ctx-btn" data-context="code">💻 Code</button>
+                <button class="ctx-btn" data-context="feature">🏗️ Features</button>
+                <button class="ctx-btn" data-context="debug">🐛 Debug</button>
+                <button class="ctx-btn" data-context="trading">📈 Trading</button>
+                <button class="ctx-btn" data-context="automation">🤖 Automation</button>
+                <button class="ctx-btn" data-context="security">🔒 Securite</button>
+                <button class="ctx-btn" data-context="monitoring">📊 Monitoring</button>
+                <button class="ctx-btn" data-context="memory">🧠 Memoire/RAG</button>
+                <button class="ctx-btn" data-context="web">🌐 Web/Social</button>
+                <button class="ctx-btn" data-context="cicd">🔄 CI/CD</button>
+                <button class="ctx-btn" data-context="docs">📝 Docs</button>
+                <button class="ctx-btn" data-context="voice">🎤 Vocal</button>
+                <button class="ctx-btn" data-context="perf">⚡ Performance</button>
+            </div>
+        </div>
+
+        <div class="filter-stats" id="filter-stats">24 prompts affiches sur 24</div>
+
+        <!-- ALL CARDS IN A FLAT GRID -->
+        <div class="usage-grid" id="cards-grid">
+
+            <!-- ========== GEMINI CARDS ========== -->
+
+            <div class="usage-card" data-tool="gemini" data-context="code" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">💻</span>Generation de code
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ Gemini</span>
+                    <span class="badge badge-ctx">💻 Code</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : creer du code Python, shell, infra-as-code</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es un expert Gemini CLI. Objectif : generer du code &lt;langage&gt; pour &lt;tache&gt;.
+1) Respecte le style du projet existant.
+2) Fournis code complet + exemple d'usage.
+3) Ajoute commentaires sur les parties critiques.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="gemini" data-context="memory" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🔄</span>Reprise conversation
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ Gemini</span>
+                    <span class="badge badge-ctx">🧠 Memoire</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : continuer un flux de travail existant</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Contexte precedent : &lt;resume conversation&gt;.
+Maintenant : &lt;nouvelle demande&gt;.
+1) Relie avec le contexte precedent.
+2) Propose la suite logique du travail.
+3) Garde la coherence technique.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="gemini" data-context="memory" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">📖</span>Lecture memoire
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ Gemini</span>
+                    <span class="badge badge-ctx">🧠 Memoire</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : rappeler decisions passees, contexte projet</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Memoire du projet : &lt;resume decisions, stack, contraintes&gt;.
+Tache actuelle : &lt;nouvelle demande&gt;.
+1) Relie la nouvelle tache avec les decisions passees.
+2) Rappelle les contraintes a respecter.
+3) Propose implementation coherente.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="gemini" data-context="debug" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🔍</span>Audit systeme
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ Gemini</span>
+                    <span class="badge badge-ctx">🐛 Debug</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : diagnostic Linux, perf, securite</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es expert Gemini Linux audit.
+1) Liste commandes d'audit CPU/RAM/disque/reseau/services.
+2) Explique quoi regarder dans chaque sortie.
+3) Plan tuning priorise (safe -> agressif).
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="gemini" data-context="setup" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">⚙️</span>Demarrage session
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ Gemini</span>
+                    <span class="badge badge-ctx">🔧 Setup</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : initialiser Gemini CLI pour session productive</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+&lt;role&gt;Expert Linux SRE Gemini CLI&lt;/role&gt;
+&lt;context&gt;Projet Jarvis Linux &lt;distro&gt; &lt;hardware&gt;&lt;/context&gt;
+1) Comprends le contexte projet.
+2) Pose questions clarification si besoin.
+3) Structure reponses : Goal/Plan/Code/Verify
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <!-- ========== CLAUDE CODE CARDS ========== -->
+
+            <div class="usage-card" data-tool="claude" data-context="code" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🔧</span>Refactoring multi-fichiers
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">💻 Code</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : IDE Claude, code existant a ameliorer</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+[Claude Code - Refactor] Tu es Claude Code dev senior. Tache : refactorer ce module sans casser API publique. 1) Inspecte fichiers lies. 2) Liste problemes. 3) Propose diff incremental. Structure : Goal/Analysis/Changes/Tests
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="setup" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🔌</span>Configuration MCP Servers
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🔧 Setup</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : enregistrer les serveurs MCP du cluster JARVIS dans Claude Code</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+claude mcp add --transport http jarvis-ws http://127.0.0.1:9742/mcp --scope user
+claude mcp add --transport http jarvis-proxy http://127.0.0.1:18800/mcp --scope user
+claude mcp add --transport http jarvis-openclaw http://127.0.0.1:18789/mcp --scope user
+claude mcp add --transport http browseros http://127.0.0.1:9001/mcp --scope user
+claude mcp add --transport http mon-flask-mcp http://127.0.0.1:8080/mcp --scope user
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="setup" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">⚙️</span>Permissions Claude Code
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🔧 Setup</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : settings.json — permissions et repertoires autorises</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)", "Read(*)", "Write(*)", "Edit(*)", "Glob(*)", "Grep(*)",
+      "Agent(*)", "WebFetch(*)", "WebSearch(*)", "Skill(*)",
+      "mcp__jarvis__*", "mcp__claude_ai_Google_Calendar__*",
+      "mcp__claude_ai_Canva__*", "mcp__claude_ai_Notion__*",
+      "mcp__github__*", "mcp__browseros__*",
+      "mcp__plugin_playwright_playwright__*"
+    ]
+  },
+  "allowedDirs": ["/home/turbo/**", "/tmp/**", "/var/log/**"],
+  "voiceEnabled": true
+}
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="setup" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🧩</span>22 Plugins actives
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🔧 Setup</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : plugins Claude Code installes sur le cluster JARVIS</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+superpowers, frontend-design, context7, code-review, github,
+feature-dev, code-simplifier, playwright, typescript-lsp,
+commit-commands, claude-md-management, security-guidance,
+pr-review-toolkit, pyright-lsp, claude-code-setup, agent-sdk-dev,
+plugin-dev, explanatory-output-style, skill-creator,
+learning-output-style, playground, pinecone
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="automation" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🤖</span>Plugin jarvis-turbo v3.0.0
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🤖 Automation</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : plugin local — skills, agents, commandes et hooks JARVIS</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+11 Skills: autotest-analysis, cluster-management, continuous-improvement,
+failover-recovery, mao-workflow, performance-tuning, security-audit,
+smart-routing, trading-pipeline, weighted-orchestration, browser-workflow
+
+7 Agents: jarvis-auditor, jarvis-auto-improver, jarvis-code-reviewer,
+jarvis-gpu-manager, jarvis-voice-controller, jarvis-devops, jarvis-browser
+
+12 Commands: /cluster-check, /gpu-status, /consensus, /trading-scan,
+/heal-cluster, /ask-ai, /browse, /diagnostic, /models, /os, /trade, /content
+
+2 Hooks: gpu-thermal-guard (PostToolUse), session-cluster-check (SessionStart)
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="memory" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🧠</span>Memoire persistante
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🧠 Memoire</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : fichiers memoire ~/.claude/projects/-home-turbo/memory/</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+9 fichiers memoire:
+- MEMORY.md (index)
+- user_language.md (francais)
+- user_profile.md (Turbo, GitHub)
+- user_machine_m1.md (Ryzen 5700X3D, 5 GPUs, 46GB RAM)
+- project_voice_linux_control.md (898 commandes vocales)
+- project_jarvis_os.md (9 couches boot→vocal)
+- project_jarvis_linux_port.md (443 dominos, 11 modules)
+- project_portage_linux_progress.md (supervisor v2, 250 fichiers portes)
+- project_jarvis_v15_session.md (118 commits, 12 tags, 65 n8n)
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="docs" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">📋</span>CLAUDE.md — Config projet
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">📝 Docs</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : template CLAUDE.md pour instructions projet (105 lignes)</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+# JARVIS Turbo v15.0 — Project Instructions
+## Langue: Francais. Code en anglais.
+## Architecture: Claude Agent SDK v0.1.35, uv, Python 3.12
+## Cluster: 4 noeuds (M1/M2/M3/OL1), 5 GPUs, 40GB VRAM
+## Modules: 315 src/ | 658 MCP handlers | 674 REST endpoints
+## COWORK: 574 scripts autonomes | Tests: 8846 fonctions
+## Regles: JAMAIS localhost → 127.0.0.1, Ollama think:false
+## Scripts utiles: make test, make health, make cluster
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="setup" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🚀</span>Migration nouvelle machine
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🔧 Setup</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : 7 etapes pour migrer JARVIS sur une nouvelle machine</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+git clone https://github.com/Turbo31150/jarvis-linux.git ~/jarvis-linux
+cd ~/jarvis-linux && chmod +x install-jarvis-os.sh && ./install-jarvis-os.sh
+# Copier ~/.claude/ depuis backup
+docker compose -f docker-compose.modular.yml up -d
+n8n start & && for f in n8n_workflows/*.json; do n8n import:workflow --input="$f"; done
+crontab < system/crontab-jarvis.txt
+make health && make test && curl http://127.0.0.1:9742/health/full
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="perf" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🐧</span>Linux Performance Tuning
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">⚡ Performance</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : expert SRE — tuning Linux pour workloads AI + JARVIS</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+You are an expert Linux performance engineer and SRE.
+Target: AI workloads (GPU/CPU bound) + JARVIS integration.
+
+CPU: governor performance, IRQ affinity, NUMA awareness
+Memory: vm.swappiness=10, dirty_ratio=40, ZRAM 12GB zstd
+Disk: noatime, I/O scheduler mq-deadline for NVMe
+Network: TCP BBR, buffer tuning, backlog optimization
+Services: systemd-analyze, disable unused, optimize boot
+JARVIS: 24 systemd services, cgroups isolation, log rotation
+
+Structure: Goal/Plan/Code/Verify — always backup before changes
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="claude" data-context="automation" data-app="n8n">
+                <div class="usage-title">
+                    <span class="usage-icon">⚡</span>65 Workflows n8n JARVIS
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔧 Claude Code</span>
+                    <span class="badge badge-ctx">🤖 Automation</span>
+                    <span class="badge badge-app">⚡ n8n</span>
+                </div>
+                <div class="context">Contexte : workflows n8n organises par domaine — UI http://127.0.0.1:5678</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Infrastructure (22): Docker, GPU, VRAM, Disk, Memory, Systemd, Network
+Trading (9): Crypto alerts, MEXC scanner, consensus, PnL, watchdog
+AI/Dev (9): LM Studio, Ollama, COWORK, dispatch, RAG, benchmark
+Social (8): LinkedIn, GitHub, Telegram, briefings, notifications
+Ops (8): Backup, logs, Prometheus, audit, drift, security
+Integrations (6): Notion, Calendar, Canva, BrowserOS, Research, Voice
+
+n8n UI: http://127.0.0.1:5678
+API Key: via n8n user_api_keys table
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <!-- ========== CODEX / OPENAI CARDS ========== -->
+
+            <div class="usage-card" data-tool="codex" data-context="setup" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">⚙️</span>Demarrage session Codex
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">🔧 Setup</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : utiliser Codex CLI comme agent principal Jarvis Linux</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es Codex CLI.
+Projet : Jarvis Linux.
+1) Comprends d'abord le contexte local avant toute modification.
+2) Relie la tache a l'historique si utile.
+3) Reste coherent avec l'existant et evite les reecritures inutiles.
+4) Pour l'infra/Linux/SRE, structure : Goal/Plan/Code/Verify.
+5) Pour un refactor, structure : Goal/Analysis/Changes/Tests.
+6) Agis comme l'agent principal du terminal, execute, verifie et resume clairement.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="monitoring" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🔍</span>Audit complet machine
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">📊 Monitoring</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : auditer la machine actuelle pour reconstruire la meme configuration ailleurs</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es Codex CLI en mode audit de reconstruction.
+Objectif : lister toute la configuration actuelle utile pour recreer cette machine.
+1) Inventorie : config shell, services, Docker, MCP, plugins, skills, memoire, auth, aliases, dependances, ports, repos.
+2) Separe ce qui est :
+- requis pour fonctionner
+- ajoute par l'utilisateur
+- secret a migrer separement
+- historique facultatif
+3) Produis un rapport de migration clair avec chemins exacts.
+4) Termine par : prerequis, ordre de migration, verifications post-install.
+Structure : Goal/Plan/Code/Verify.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="memory" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">📖</span>Memoire et continuite
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">🧠 Memoire</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : reprendre une tache avec contexte projet et decisions passees</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Memoire du projet : &lt;stack, decisions, contraintes, chemins, services&gt;.
+Tache actuelle : &lt;demande&gt;.
+1) Relie la tache au contexte precedent.
+2) Rappelle les contraintes a ne pas casser.
+3) Reutilise l'existant avant de proposer du neuf.
+4) Signale les ecarts ou contradictions.
+5) Propose l'implementation coherente la plus incrementale possible.
+Structure : Goal/Plan/Code/Verify.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="code" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🧩</span>Refactor incremental
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">💻 Code</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : modifier un module sans casser l'API publique</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+[Codex CLI - Refactor]
+Tu es un dev senior.
+Tache : refactorer ce module sans casser l'API publique.
+1) Inspecte les fichiers lies avant de toucher au code.
+2) Liste les problemes concrets.
+3) Propose un diff incremental minimal.
+4) Preserve signatures, formats I/O, comportements observables et integrations existantes.
+5) Ajoute ou ajuste les tests necessaires.
+Structure : Goal/Analysis/Changes/Tests.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="monitoring" data-app="docker">
+                <div class="usage-title">
+                    <span class="usage-icon">🏗️</span>Infra et services Jarvis
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">📊 Monitoring</span>
+                    <span class="badge badge-app">🐳 Docker</span>
+                </div>
+                <div class="context">Contexte : Linux, systemd, Docker, MCP, n8n, services Jarvis</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es Codex CLI, expert Linux/SRE pour Jarvis.
+1) Inspecte d'abord les services systemd, Docker Compose, endpoints, MCP et workflows n8n.
+2) Identifie les ecarts entre config declaree et runtime reel.
+3) Corrige par petites etapes verifiables.
+4) Pour chaque changement, donne rollback et commande de verification.
+5) N'ignore pas les contrats d'API, ports, permissions et dependances.
+Structure : Goal/Plan/Code/Verify.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="code" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">💻</span>Creation de code
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">💻 Code</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : generer du code avec Codex CLI</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es un expert Codex CLI.
+Objectif : generer du code pour &lt;tache&gt;.
+1) Respecte le style du projet existant.
+2) Fournis le code complet, pas du pseudo-code.
+3) Ajoute un exemple d'usage minimal.
+4) Commente seulement les parties critiques.
+5) Si le contexte manque, lis les fichiers lies avant de coder.
+Structure : Goal/Plan/Code/Verify.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="debug" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🐞</span>Debug cible
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">🐛 Debug</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : debug systematique avec Codex CLI</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es Codex CLI en mode debug.
+Probleme : &lt;bug, erreur, log, comportement&gt;.
+1) Reproduis ou inspecte le bug avec les fichiers et logs lies.
+2) Liste les causes probables par ordre de vraisemblance.
+3) Corrige la cause racine, pas seulement le symptome.
+4) Verifie avec tests, commandes ou checks runtime.
+Structure : Goal/Analysis/Changes/Tests.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <!-- ========== PERPLEXITY CARDS ========== -->
+
+            <div class="usage-card" data-tool="perplexity" data-context="docs" data-app="browseros">
+                <div class="usage-title">
+                    <span class="usage-icon">🔍</span>Recherche technique
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🔍 Perplexity</span>
+                    <span class="badge badge-ctx">📝 Docs</span>
+                    <span class="badge badge-app">🌐 BrowserOS</span>
+                </div>
+                <div class="context">Contexte : recherche technique, comparatifs, veille techno</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es Perplexity en mode recherche technique approfondie.
+Sujet : &lt;technologie, outil, comparaison&gt;.
+1) Donne les sources fiables et recentes.
+2) Compare les alternatives avec pros/cons.
+3) Recommandation finale adaptee au contexte JARVIS Linux.
+4) Inclus liens, versions, dates de derniere mise a jour.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <!-- ========== BROWSEROS CARDS ========== -->
+
+            <div class="usage-card" data-tool="browser" data-context="web" data-app="browseros">
+                <div class="usage-title">
+                    <span class="usage-icon">🌐</span>Automatisation web
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🌐 BrowserOS</span>
+                    <span class="badge badge-ctx">🌐 Web/Social</span>
+                    <span class="badge badge-app">🌐 BrowserOS</span>
+                </div>
+                <div class="context">Contexte : navigation, scraping, actions web automatisees</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu es BrowserOS, agent de navigation web autonome.
+Objectif : &lt;action web, scraping, formulaire, dashboard&gt;.
+1) Navigue vers l'URL cible.
+2) Attends le chargement complet de la page.
+3) Interagis avec les elements (click, fill, scroll).
+4) Extrait les donnees demandees ou confirme l'action.
+5) Capture screenshot si verification necessaire.
+Endpoint: http://127.0.0.1:9001/mcp
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <!-- ========== JARVIS CORE CARDS ========== -->
+
+            <div class="usage-card" data-tool="jarvis" data-context="automation" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🤖</span>Orchestration multi-LLM
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🤖 Jarvis Core</span>
+                    <span class="badge badge-ctx">🤖 Automation</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : routing intelligent entre modeles IA du cluster</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+JARVIS Core — Orchestration multi-LLM
+Cluster: 4 noeuds (M1/M2/M3/OL1), 5 GPUs, 40GB VRAM
+
+Routing: intent detection → model selection → dispatch → aggregate
+Models: Claude Opus/Sonnet, Gemini Pro, GPT-4o, Ollama local, LM Studio
+Strategies: consensus (3+ models), speed (fastest), quality (best model)
+
+API: http://127.0.0.1:9742/api/dispatch
+Health: http://127.0.0.1:9742/health/full
+Commands: /consensus &lt;query&gt; | /ask-ai &lt;model&gt; &lt;query&gt;
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="jarvis" data-context="monitoring" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">📊</span>Health & GPU Monitoring
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🤖 Jarvis Core</span>
+                    <span class="badge badge-ctx">📊 Monitoring</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : monitoring sante cluster, GPU, services</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+JARVIS Monitoring — Commandes rapides
+
+/cluster-check          — Etat complet du cluster 4 noeuds
+/gpu-status             — VRAM, temperature, utilisation par GPU
+/diagnostic             — Audit systemd + Docker + MCP + endpoints
+make health             — Health check rapide tous services
+make test               — 8846 tests fonctionnels
+
+Prometheus: http://127.0.0.1:9090
+Grafana: http://127.0.0.1:3000
+Hook: gpu-thermal-guard (alerte si T > 85C)
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="jarvis" data-context="trading" data-app="n8n">
+                <div class="usage-title">
+                    <span class="usage-icon">📈</span>Trading Pipeline
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🤖 Jarvis Core</span>
+                    <span class="badge badge-ctx">📈 Trading</span>
+                    <span class="badge badge-app">⚡ n8n</span>
+                </div>
+                <div class="context">Contexte : scan crypto, MEXC, consensus multi-IA, PnL tracking</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+JARVIS Trading Pipeline
+
+/trading-scan           — Scan MEXC futures + spot opportunities
+/consensus &lt;pair&gt;      — Multi-IA analysis (Claude+Gemini+GPT)
+/trade &lt;action&gt;        — Execute trade with risk management
+
+9 n8n workflows: alerts, scanner, consensus, PnL, watchdog
+Exchanges: MEXC (primary), Binance (backup)
+Risk: max 2% per trade, auto stop-loss, daily PnL limits
+Notifications: Telegram bot real-time alerts
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="jarvis" data-context="voice" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🎤</span>Controle vocal JARVIS
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">🤖 Jarvis Core</span>
+                    <span class="badge badge-ctx">🎤 Vocal</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : 898 commandes vocales, wake word, STT/TTS</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+JARVIS Voice Control — 898 commandes
+
+Wake word: "Jarvis" (Porcupine/Picovoice)
+STT: Whisper local (GPU accelerated)
+TTS: jarvis-tts.sh (Piper + aplay)
+Intent: NLU routing → command dispatch
+
+Modules: system, docker, git, trading, browseros
+Macros: "Jarvis, lance le cluster" → multi-step automation
+Learning: auto-apprentissage nouvelles commandes
+Config: project_voice_linux_control.md
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+        </div><!-- /cards-grid -->
+
+        <footer>
+            <p>© 2026 Jarvis Prompt Library Pro | Premium prompts pour DevOps & IA | 24 prompts classes</p>
+        </footer>
+    </div>
+
+    <script>
+        // State: active filters
+        let activeTool = 'all';
+        let activeContext = 'all';
+        let activeApp = 'all';
+
+        function applyFilters() {
+            const cards = document.querySelectorAll('.usage-card');
+            let visible = 0;
+            cards.forEach(card => {
+                const matchTool = (activeTool === 'all' || card.dataset.tool === activeTool);
+                const matchCtx = (activeContext === 'all' || card.dataset.context === activeContext);
+                const matchApp = (activeApp === 'all' || card.dataset.app === activeApp);
+                if (matchTool && matchCtx && matchApp) {
+                    card.style.display = '';
+                    visible++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.getElementById('filter-stats').textContent =
+                visible + ' prompt' + (visible > 1 ? 's' : '') + ' affiche' + (visible > 1 ? 's' : '') + ' sur ' + cards.length;
+        }
+
+        // Tool filter buttons
+        document.querySelectorAll('#tool-filters .tool-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#tool-filters .tool-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTool = btn.dataset.tool;
+                applyFilters();
+            });
+        });
+
+        // Context filter buttons
+        document.querySelectorAll('#context-filters .ctx-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#context-filters .ctx-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeContext = btn.dataset.context;
+                applyFilters();
+            });
+        });
+
+        // App filter buttons
+        document.querySelectorAll('#app-filters .app-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#app-filters .app-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeApp = btn.dataset.app;
+                applyFilters();
+            });
+        });
+
+        function copyPrompt(e) {
+            if (e.stopPropagation) e.stopPropagation();
+            const box = (e.target || e).closest ? (e.target || e).closest('.prompt-box') : e;
+            if (!box) return;
+            // Get text content minus the button text
+            const clone = box.cloneNode(true);
+            const btns = clone.querySelectorAll('.copy-btn');
+            btns.forEach(b => b.remove());
+            const text = clone.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = box.querySelector('.copy-btn');
+                if (btn) {
+                    const original = btn.textContent;
+                    btn.textContent = '✅ Copie !';
+                    btn.style.background = '#4ade80';
+                    setTimeout(() => {
+                        btn.textContent = original;
+                        btn.style.background = '';
+                    }, 2000);
+                }
+            });
+        }
+
+        function subscribe() { alert('🚀 Abonnement Stripe active !'); }
+        function demo() { alert('🎯 Essai gratuit 7 jours !'); }
+
+        // Initial stats
+        applyFilters();
+    </script>
+</body>
+</html>
