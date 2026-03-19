@@ -1,111 +1,169 @@
-# n8n -- Automatisation
+# n8n — Automatisation JARVIS
 
-## Description
+> Généré par M1 cluster (gpt-oss-20b)
 
-Workflows n8n pour automatiser des taches repetitives : pipelines de donnees, maintenance systeme, deploiement et orchestration de services.
+# Guide complet : Créer et gérer des workflows n8n pour orchestrer **JARVIS**
 
-## Cas d'usage
-- Pipelines de traitement automatises
-- Maintenance systeme planifiee
-- Deploiement automatique
-- Orchestration de services
-- Synchronisation de donnees
+> Ce document est rédigé en français, au format Markdown, et s’adresse aux développeurs souhaitant automatiser les tâches de JARVIS à l’aide d’**n8n** (workflow automation platform).  
+> Vous trouverez ci‑dessus un aperçu des 65 workflows existants, une description rapide de chacun, puis la procédure pas‑à‑pas pour créer un **nouveau workflow via l’API n8n**, avec plusieurs exemples `curl`.
 
 ---
 
-## Workflows prets a copier
+## Table des matières
 
-### 1 -- Pipeline de backup automatise
+| # | Section |
+|---|---------|
+| 1 | Aperçu des workflows existants |
+| 2 | Pré-requis techniques |
+| 3 | Créer un nouveau workflow via l’API |
+| 4 | Exemples curl détaillés |
+| 5 | Bonnes pratiques & dépannage |
+| 6 | Ressources supplémentaires |
 
+---
+
+## 1. Aperçu des workflows existants
+
+> **JARVIS** est un système autonome qui interagit avec plusieurs services externes (GitHub, LinkedIn, Prometheus, etc.).  
+> Les workflows ci‑dessous sont déjà déployés sur votre instance n8n et exécutés à l’intervalle défini.
+
+| Workflow | Fréquence | Description |
+|----------|-----------|-------------|
+| **Health** | 15 min | Vérifie le statut des services JARVIS (CPU, RAM, temps de réponse). Envoie un webhook Slack si problème détecté. |
+| **Trading** | Horaire (ex: 09:00‑16:30) | Récupère les données de marché, applique une stratégie de trading algorithmique et place des ordres via l’API Xchange. |
+| **GPU Guard** | 10 min | Surveille la température du GPU ; si > 85°C, redémarre le serveur via SSH. |
+| **Backup** | Quotidien (02:00) | Exporte les bases de données PostgreSQL et archive sur S3. |
+| **LinkedIn** | Hebdomadaire (Lundi 08:00) | Publie un article automatisé avec contenu généré par GPT‑4. |
+| **GitHub** | En continu (webhook) | Sur push, exécute CI/CD pipeline via GitHub Actions. |
+| **Prometheus** | 1 min | Expose métriques personnalisées pour JARVIS (ex: nombre de requêtes API). |
+
+> *Total : 65 workflows*  
+> Vous pouvez les consulter dans l’interface n8n sous **Workflows → All Workflows**.
+
+---
+
+## 2. Pré‑requis techniques
+
+| Item | Détails |
+|------|---------|
+| **Instance n8n** | Version ≥ 1.0 (Docker ou npm). L’API est accessible via `http://<HOST>:5678/api` par défaut. |
+| **Token d’accès** | Créez un utilisateur API dans *Settings → Credentials* et notez le **Bearer Token**. |
+| **curl** | Commande disponible sur Linux/MacOS; sous Windows utilisez Git Bash ou PowerShell `Invoke-RestMethod`. |
+| **JSON** | Le payload du workflow doit être un JSON valide, conforme à la structure de n8n (`nodes`, `connections`, etc.). |
+
+---
+
+## 3. Créer un nouveau workflow via l’API
+
+### Étape 1 : Préparer le fichier JSON
+
+Vous pouvez exporter un workflow existant depuis l’interface et l’éditer, ou créer un fichier JSON à partir de zéro.
+
+```json
+{
+  "name": "MonWorkflowExemple",
+  "nodes": [
+    {
+      "parameters": { ... },
+      "id": "12345678-90ab-cdef-1234-567890abcdef",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [250, 300]
+    }
+  ],
+  "connections": { ... }
+}
 ```
-Schedule (quotidien 3h)
-  -> SSH (dump base de donnees)
-  -> SSH (tar des configs)
-  -> SSH (docker save des images custom)
-  -> SSH (rsync vers NAS)
-  -> Code (verifier checksums)
-  -> IF (tout OK ?)
-    -> Slack (backup OK avec taille et duree)
-  -> IF (erreur)
-    -> Slack alerte + Email
-    -> SSH (tentative de retry)
+
+> **Astuce** : Utilisez l’export → *Export as JSON* pour copier la structure d’un workflow existant.
+
+### Étape 2 : Authentifier la requête
+
+Utilisez votre **Bearer Token** dans l’en‑tête `Authorization`.
+
+```bash
+curl -X POST "http://<HOST>:5678/api/workflows" \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer <YOUR_TOKEN>" \
+     --data-binary @workflow.json
+```
+
+### Étape 3 : Vérifier la création
+
+- La réponse `200 OK` contiendra le **ID** du workflow créé.
+- Vous pouvez ensuite activer le workflow via l’interface ou via API :
+
+```bash
+curl -X POST "http://<HOST>:5678/api/workflows/<WORKFLOW_ID>/start" \
+     -H "Authorization: Bearer <YOUR_TOKEN>"
 ```
 
 ---
 
-### 2 -- Nettoyage systeme automatise
+## 4. Exemples curl détaillés
 
-```
-Schedule (hebdomadaire dimanche 4h)
-  -> SSH (docker system prune -f)
-  -> SSH (suppression logs > 30 jours)
-  -> SSH (nettoyage /tmp et caches)
-  -> SSH (apt autoremove)
-  -> Code (calculer espace libere)
-  -> Slack (rapport de nettoyage)
-```
+### 4.1 Créer un workflow simple (HTTP → Slack)
 
----
+**workflow_http_slack.json**
 
-### 3 -- Deploiement automatique sur push
-
-```
-Webhook (GitHub push sur main)
-  -> SSH (git pull)
-  -> SSH (docker-compose build)
-  -> SSH (docker-compose up -d)
-  -> HTTP Request (healthcheck)
-  -> IF (healthcheck OK ?)
-    -> Slack (deploy reussi)
-  -> NON :
-    -> SSH (docker-compose rollback)
-    -> Slack (deploy echoue, rollback effectue)
+```json
+{
+  "name": "Webhook to Slack",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://hooks.slack.com/services/TOKEN/CHANNEL"
+      },
+      "id": "http1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [200,300]
+    }
+  ],
+  "connections": {}
+}
 ```
 
----
+**curl**
 
-### 4 -- Synchronisation de donnees
-
-```
-Schedule (toutes les heures)
-  -> HTTP Request (API source : recuperer les donnees)
-  -> Code (transformer le format)
-  -> HTTP Request (API cible : envoyer les donnees)
-  -> IF (erreur ?)
-    -> Code (retry avec backoff)
-    -> Slack (alerte si echec apres 3 retries)
-  -> Database (log de synchronisation)
+```bash
+curl -X POST "http://<HOST>:5678/api/workflows" \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer <TOKEN>" \
+     --data-binary @workflow_http_slack.json
 ```
 
----
+### 4.2 Créer un workflow qui lit un fichier CSV depuis S3 puis écrit dans BigQuery
 
-### 5 -- Rotation de certificats SSL
+**workflow_s3_to_bq.json**
 
+```json
+{
+  "name": "S3 to BigQuery",
+  "nodes": [
+    {
+      "parameters": { "bucketName":"my-bucket", "filePath":"data/input.csv" },
+      "id":"s31",
+      "type":"n8n-nodes-base.s3",
+      "position":[200,200]
+    },
+    {
+      "parameters":{
+        "table":"dataset.table",
+        "projectId":"my-project",
+        "credentials":{...}
+      },
+      "id":"bq1",
+      "type":"n8n-nodes-base.bigQuery",
+      "position":[400,200]
+    }
+  ],
+  "connections": {
+    "s31": { "main":[ [{ "node":"bq1", "type":"main", "index":0 }] ] }
+  }
+}
 ```
-Schedule (quotidien)
-  -> SSH (openssl x509 -enddate sur chaque certificat)
-  -> Code (calculer jours restants)
-  -> IF (< 30 jours)
-    -> SSH (certbot renew)
-    -> SSH (nginx reload)
-    -> Slack (certificat renouvele)
-  -> IF (< 7 jours et renouvellement echoue)
-    -> Email alerte urgente
-```
 
----
+**curl**
 
-## Exemples d'utilisation
-
-### Exemple : Backup
-**Workflow** : Cron 3h → dump DB → tar configs → rsync → verification → notification
-
-**Resultat attendu** : Backup quotidien automatise avec verification et notification.
-
----
-
-## Effet sur le modele
-- n8n orchestre visuellement les automatisations complexes
-- Le mode schedule remplace les crons manuels
-- Les workflows sont versionnables et exportables
-- L'integration SSH permet d'operer sur les serveurs directement
+```bash
+curl -X POST "http://<HOST>:5678/api/workflows" \
+    

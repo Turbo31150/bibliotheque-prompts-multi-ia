@@ -1,137 +1,76 @@
-# ChatGPT -- Monitoring
+# ChatGPT — Monitoring
 
-## Description
+> Généré par M1 cluster (gpt-oss-20b)
 
-Prompts pour utiliser ChatGPT dans la surveillance et le monitoring de systemes, serveurs, clusters et applications. ChatGPT excelle dans l'analyse de logs, la creation de dashboards et la suggestion de seuils d'alerte.
+# 📊 Guide d’utilisation de ChatGPT comme outil de monitoring système
 
-## Cas d'usage
-- Analyse de logs systeme et applicatifs
-- Creation de regles d'alerte Prometheus/Grafana
-- Diagnostic de pannes a partir de metriques
-- Generation de scripts de monitoring
-- Interpretation de metriques de performance
+> **Prérequis**  
+> • Version ChatGPT 4 ou supérieure (possibilité d’utiliser l’API).  
+> • Accès aux logs, métriques et dashboards via API ou fichiers locaux.  
+> • Connaissances de base en scripting (Python, Bash) et outils de visualisation (Grafana, Kibana).
 
 ---
 
-## Prompts prets a copier
+## 1️⃣ Analyse des logs
 
-### 1 -- Analyser des logs systeme
-
-```
-Analyse ces logs systeme et identifie :
-1. Les erreurs critiques et leur frequence
-2. Les patterns recurrents (meme erreur, meme heure)
-3. Les correlations entre evenements
-4. Les causes probables
-5. Les actions correctives recommandees
-
-Classe les problemes par severite (critique/warning/info).
-Format : tableau avec colonnes [Heure | Severite | Probleme | Cause probable | Action].
-
-Logs :
-[COLLER LES LOGS ICI]
-```
+| Description | Prompts | Exemples | Effet sur le modèle |
+|-------------|---------|----------|---------------------|
+| **Filtrage & agrégation** | *« Filtre les entrées d’erreur dans `system.log` du 12/03/2026 et regroupe par code d’état. »* | ```json<br>{ "file": "/var/log/system.log", "date": "2026-03-12", "level": "ERROR" }``` | Le modèle récupère le fichier, applique une regex pour extraire les erreurs, puis agrège par code. |
+| **Analyse de tendances** | *« Compare la fréquence des 500 Internal Server Error entre les deux dernières semaines et indique s’il y a augmentation. »* | ```json<br>{ "file": "/var/log/api.log", "range": ["2026-03-01","2026-03-14"], "error_code":"500" }``` | Le modèle calcule la densité d’erreurs, trace une courbe temporelle et génère un résumé. |
+| **Alertes** | *« Écris un script Bash qui envoie une alerte Slack lorsqu’un nombre supérieur à 10 d’échecs de connexion apparaît dans `auth.log` sur une fenêtre de 5 minutes. »* | ```bash<br>#!/usr/bin/env bash\n# ...``` | Le modèle génère le code complet, incluant la logique de temporisation et l’appel API Slack. |
 
 ---
 
-### 2 -- Creer des regles d'alerte Prometheus
+## 2️⃣ Diagnostic des pannes
 
-```
-Cree des regles d'alerte Prometheus (format YAML) pour surveiller un cluster Linux avec :
-- 6 GPUs NVIDIA (temperature, utilisation, VRAM)
-- CPU Ryzen 5700X3D (8 cores)
-- 46 Go de RAM
-- Disques NVMe et HDD
-
-Pour chaque metrique :
-- Seuil WARNING et CRITIQUE
-- Duree avant declenchement (for:)
-- Labels et annotations avec description
-- Runbook URL placeholder
-
-Genere au minimum 15 regles couvrant : CPU, RAM, disque, GPU, reseau, services systemd.
-```
+| Description | Prompts | Exemples | Effet sur le modèle |
+|-------------|---------|----------|---------------------|
+| **Root‑cause analysis** | *« Analyse les logs système pour identifier la cause d’un crash de `nginx` le 10/03. »* | ```json<br>{ "file": "/var/log/nginx/error.log", "date":"2026-03-10" }``` | Le modèle parcourt les entrées, repère les erreurs liées à la mémoire ou aux dépendances et résume la cause probable. |
+| **Recommandations** | *« Propose des actions correctives pour stabiliser `docker` après un crash répétitif de conteneurs. »* | ```json<br>{ "logs": "/var/log/docker.log", "issues":"OOM" }``` | Le modèle génère une liste d’étapes (augmentation mémoire, optimisation images, etc.). |
+| **Simulation** | *« Simule l’impact d’un arrêt brutal du serveur sur les services dépendants et propose un plan de reprise. »* | ```json<br>{ "services":["web","db","cache"], "shutdown":"graceful" }``` | Le modèle crée un diagramme de dépendances, identifie les points de failure, et suggère un script de redémarrage séquentiel. |
 
 ---
 
-### 3 -- Diagnostiquer une panne a partir de metriques
+## 3️⃣ Visualisation des métriques
 
-```
-Voici les metriques de mon serveur sur les dernieres 24h :
-
-CPU : [VALEURS]
-RAM : [VALEURS]
-Disque I/O : [VALEURS]
-Reseau : [VALEURS]
-GPU : [VALEURS]
-
-Le symptome observe : [DECRIRE LE PROBLEME]
-
-Analyse ces metriques et :
-1. Identifie la cause racine la plus probable
-2. Explique la chaine de causalite
-3. Propose 3 actions correctives par ordre de priorite
-4. Suggere des metriques supplementaires a surveiller
-5. Recommande des seuils d'alerte pour prevenir la recurrence
-```
+| Description | Prompts | Exemples | Effet sur le modèle |
+|-------------|---------|----------|---------------------|
+| **Graphes simples** | *« Génère un graphique en ligne pour la CPU utilisation (prometheus query: `rate(node_cpu_seconds_total[5m])`) sur les 24 dernières heures. »* | ```json<br>{ "query":"rate(node_cpu_seconds_total[5m])", "time_range":"24h" }``` | Le modèle exécute la requête PromQL, récupère les points et renvoie un fichier PNG ou HTML embed. |
+| **Heatmap** | *« Crée une heatmap de latence HTTP (latency_histogram_bucket) par endpoint sur les 7 derniers jours. »* | ```json<br>{ "query":"histogram_quantile(0.95, sum(rate(http_latency_seconds_bucket[1m])) by (le, endpoint))", "time_range":"7d" }``` | Le modèle calcule la quantile et produit un heatmap avec labels. |
+| **Dashboards** | *« Conçois un tableau de bord Grafana en JSON pour afficher CPU, mémoire et erreurs HTTP en temps réel. »* | ```json<br>{ "panels":[{"title":"CPU","type":"graph"}, {"title":"Memory","type":"graph"}, {"title":"HTTP Errors","type":"stat"}] }``` | Le modèle génère le fichier `dashboard.json` prêt à importer dans Grafana. |
 
 ---
 
-### 4 -- Generer un script de healthcheck
+## 4️⃣ Création de dashboards
 
-```
-Genere un script bash de healthcheck complet pour un serveur Linux qui verifie :
-
-1. Services systemd (liste configurable)
-2. Ports ouverts (liste configurable)
-3. Espace disque par partition
-4. Utilisation CPU et RAM
-5. Connectivite reseau (DNS, passerelle, internet)
-6. Certificats SSL (expiration)
-7. Conteneurs Docker (statut, restarts)
-8. GPUs NVIDIA (nvidia-smi)
-
-Sortie : JSON structure avec statut global (OK/WARNING/CRITICAL) et detail par check.
-Le script doit etre compatible avec un cron toutes les 5 minutes.
-Inclure le logging dans /var/log/healthcheck.log.
-```
+| Description | Prompts | Exemples | Effet sur le modèle |
+|-------------|---------|----------|---------------------|
+| **Template** | *« Propose un template de dashboard pour un cluster Kubernetes avec métriques pod, node et réseau. »* | ```json<br>{ "k8s":true }``` | Le modèle fournit un JSON complet incluant panels, variables (`$cluster`, `$namespace`), et filtres. |
+| **Personnalisation** | *« Ajoute une section de logs pour `app.log` dans le dashboard existant (dashboard_id=1234). »* | ```json<br>{ "dashboard_id":1234, "log_file":"app.log" }``` | Le modèle met à jour le JSON, ajoute un panel type “Logs” avec la source Loki ou Elasticsearch. |
+| **Export** | *« Convertis ce dashboard en fichier CSV pour export des métriques historiques. »* | ```json<br>{ "dashboard_id":1234, "format":"CSV" }``` | Le modèle exécute l’API Grafana, télécharge les séries temporelles et crée un CSV structuré. |
 
 ---
 
-### 5 -- Creer un dashboard Grafana
+## 5️⃣ Bonnes pratiques & limitations
 
-```
-Genere le JSON d'un dashboard Grafana complet pour monitorer un cluster de machines Linux avec :
-- Panneau CPU (gauge + timeseries)
-- Panneau RAM (gauge + timeseries)
-- Panneau disque (bar gauge par partition)
-- Panneau GPU (6 GPUs : temperature, utilisation, VRAM en timeseries)
-- Panneau reseau (bandwidth in/out)
-- Panneau services (stat panels vert/rouge par service)
-- Panneau alertes actives (table)
-
-Source : Prometheus. Variables template : $instance, $job.
-Theme sombre, refresh 30s.
-```
+- **Sécurité** : ne partagez jamais d’informations sensibles (tokens API, mots de passe).  
+- **Performance** : pour des volumes très élevés, utilisez l’API plutôt que le chat.  
+- **Validation** : toujours vérifier les scripts générés avant exécution en production.  
+- **Limites du modèle** : ChatGPT ne peut pas accéder directement aux systèmes; il génère du code qui doit être exécuté localement ou via un wrapper.
 
 ---
 
-## Exemples d'utilisation
+## 6️⃣ Exemple complet
 
-### Exemple : Analyser un pic de CPU
-**Prompt** : "Mon CPU est a 100% depuis 2h, voici le top 10 des processus [coller top]. Diagnostique et propose des solutions."
+```json
+{
+  "prompt": "Analyse le fichier /var/log/nginx/error.log du 2026-03-10 pour détecter les causes d’un crash, puis propose un plan de redémarrage automatisé.",
+  "response_format": {
+    "analysis": "...",
+    "recommendations": [...],
+    "script": "bash..."
+  }
+}
+```
 
-**Resultat attendu** : Identification du processus fautif, analyse de la cause (fuite memoire, boucle infinie, charge legitime), et actions correctives specifiques.
-
-### Exemple : Configurer des alertes
-**Prompt** : "Cree les regles Prometheus pour alerter quand mes GPUs depassent 80C pendant plus de 5 minutes."
-
-**Resultat attendu** : Fichier YAML avec regles d'alerte, annotations et labels prets a deployer.
-
----
-
-## Effet sur le modele
-- ChatGPT est excellent pour analyser des logs en langage naturel et identifier des patterns
-- Les prompts structures avec format de sortie explicite produisent des resultats directement exploitables
-- Demander des seuils specifiques (WARNING/CRITIQUE) force le modele a donner des valeurs concretes
-- L'ajout de contexte materiel (6 GPUs, Ryzen, 46 Go RAM) permet des recommandations adaptees
+> **Effet
