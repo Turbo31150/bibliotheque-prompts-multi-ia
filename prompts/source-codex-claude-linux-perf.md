@@ -2963,7 +2963,24 @@ data = json.load(open('jarvis-prompts-export.json'))
 
 ***
 
-# 📚 BIBLIOTHÈQUE MAÎTRE : GEMINICLI (ÉDITION TURBO)
+## ⚡ STRATÉGIES DE PERFORMANCE RADICALE (ÉDITION HPC)
+
+*Source : Extraction Perplexity / Audit Turbo v13.1*
+
+### 🚀 SCÉNARIO A : OPTIMISATION RADICALE OS (Claude Code)
+**Attente** : Transformer Linux en une bête de course pour workloads IA.
+*   **Prompt Maître** : `Act en tant qu'Architecte Système Senior & Expert Kernel Linux. MISSION : Optimisation RADICALE de JARVIS-OS...` (Inclure directives YOLO, Kernel Tuning, Mitigations Disable).
+*   **Résultat Attendu** : +15% IPC, Latence minimale, Priorité Nice -20 pour les services `jarvis-*`.
+
+### ⚓ SCÉNARIO B : ANCRAGE INDESTRUCTIBLE (Codex CLI)
+**Attente** : Assurer que les services ne tombent JAMAIS.
+*   **Prompt Maître** : `Génère un script Bash de déploiement "JARVIS-CORE-ANCHOR" ultra-résilient...` (Inclure Auto-Heal GPU 30s, Emergency Reset, VRAM Load Balancing).
+*   **Résultat Attendu** : Surveillance active des 5 GPUs, Redémarrage auto des drivers, Purge des caches RAM.
+
+### 🔋 SCÉNARIO C : GESTION THERMIQUE & POWER (Cluster M1)
+**Attente** : Maximiser le Compute sans cramer le hardware.
+*   **Action** : NVIDIA Persistence Mode, Power Limit Max, Fan Curve Agressive (Alerte 75°C / Kill 85°C).
+
 
 Cette section est le référentiel central de l'agent **GEMINICLI**. Elle regroupe l'audit, la configuration et les capacités extraites, classées par **Type** et **Utilisation**.
 
@@ -2979,11 +2996,14 @@ Cette section est le référentiel central de l'agent **GEMINICLI**. Elle regrou
 
 ## 🧠 TYPE 2 : IA & ORCHESTRATION (COG)
 *   **Utilisation** : Orchestration multi-agents, consensus IA, routage intelligent.
-*   **Capacités** :
-    - **Consensus** : Vote entre Claude, Gemini et GPT.
-    - **Routage** : Smart Routing basé sur la charge et la spécialité.
-*   **Modèles Liés** : Claude Code, Codex, Perplexity (interfacés via GEMINICLI).
-*   **Skill Maître** : `weighted-orchestration`, `mao-workflow`.
+*   **Dispatch Engine (9 Étapes)** : 
+    1. Cache Check -> 2. Health Node -> 3. Weighting Matrix -> 4. Smart Route -> 5. Payload Prep -> 6. Parallel Dispatch -> 7. Aggregate -> 8. Quality Control -> 9. Memory Save.
+*   **Matrice de Routage Turbo** :
+    - 17 domaines d'expertise (Code, SRE, Trading, Web, etc.).
+    - 5 niveaux de pondération (Latence, Température GPU, Contexte, Thermique, Auto-learn).
+*   **Pondération Consensus** : Node M1 (1.8), Node M2 (1.4), Node M3 (1.0).
+*   **Skill Maître** : `weighted-orchestration`, `mao-workflow`, `smart-routing`.
+
 
 ## 💻 TYPE 3 : DÉVELOPPEMENT & CODE (DEV)
 *   **Utilisation** : Refactoring, debugging résilient, génération de code complexe.
@@ -2997,11 +3017,15 @@ Cette section est le référentiel central de l'agent **GEMINICLI**. Elle regrou
 *   **Connecteurs** : Slack, Discord, Telegram, MEXC, BrowserOS.
 *   **Skill Maître** : `trading-pipeline`, `oc-browser-workflow`.
 
-## 🔄 TYPE 5 : RÉSILIENCE & MIGRATION (SYNC)
+## 📁 TYPE 5 : RÉSILIENCE & MIGRATION (SYNC)
 *   **Utilisation** : Migration sans perte, survie en cas d'erreur critique.
+*   **Self-Healing (Auto-Guérison)** :
+    - Boucle : Détecter -> Diagnostiquer -> Réparer -> Vérifier.
+    - Surveillance Thermique : GPU Guard (75°C Alerte / 85°C Kill).
 *   **Protocoles de Survie** :
     - **RESILIENT ERROR-LOOP** : Analyse en 5 hypothèses en cas d'échec.
     - **ENVIRONMENT_RESET()** : Réinitialisation forcée du système.
+
 *   **Flags de Résilience** : `--checkpointing --memory --yolo --timeout 3600`.
 *   **Dossiers Critiques** : `~/.gemini/`, `~/.openclaw/`, `~/.bash_aliases_jarvis`.
 
