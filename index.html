@@ -104,6 +104,7 @@
                 <button class="ctx-btn" data-context="trading">📈 Trading</button>
                 <button class="ctx-btn" data-context="automation">🤖 Automation</button>
                 <button class="ctx-btn" data-context="security">🔒 Securite</button>
+                <button class="ctx-btn" data-context="audit">📋 Audit & Migration</button>
                 <button class="ctx-btn" data-context="monitoring">📊 Monitoring</button>
                 <button class="ctx-btn" data-context="memory">🧠 Memoire/RAG</button>
                 <button class="ctx-btn" data-context="web">🌐 Web/Social</button>
@@ -114,10 +115,90 @@
             </div>
         </div>
 
+        <!-- MODEL PROFILE SECTION -->
+        <div class="filter-section" style="background: #1a1a1a; color: #fff; border: 2px solid #4285f4;">
+            <h2 style="color: #4285f4;">🚀 Profil Modele : GEMINICLI (Turbo Edition)</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 15px;">
+                <div style="background: #2d2d2d; padding: 15px; border-radius: 10px;">
+                    <h3 style="color: #34a853; font-size: 0.9em;">🧠 Intelligence</h3>
+                    <p style="font-size: 0.85em; margin-top: 5px;">Gemini 2.0 Pro Optimized<br>Context: 2M Tokens<br>Resilience: Active (Error-Loop)</p>
+                </div>
+                <div style="background: #2d2d2d; padding: 15px; border-radius: 10px;">
+                    <h3 style="color: #fbbc05; font-size: 0.9em;">⚙️ Configuration</h3>
+                    <p style="font-size: 0.85em; margin-top: 5px;">Mode: YOLO / ROOT<br>Buffer: 1M+<br>Checkpointing: ON</p>
+                </div>
+                <div style="background: #2d2d2d; padding: 15px; border-radius: 10px;">
+                    <h3 style="color: #ea4335; font-size: 0.9em;">🏗️ Cluster M1-OPS</h3>
+                    <p style="font-size: 0.85em; margin-top: 5px;">5 GPUs Active<br>ZRAM: 12GB<br>33 Systemd Services</p>
+                </div>
+            </div>
+        </div>
+
         <div class="filter-stats" id="filter-stats">24 prompts affiches sur 24</div>
 
         <!-- ALL CARDS IN A FLAT GRID -->
         <div class="usage-grid" id="cards-grid">
+
+            <!-- ========== BIBLIOTHEQUE GEMINICLI : SYSTÈME & RÉSILIENCE ========== -->
+
+            <div class="usage-card" data-tool="gemini" data-context="audit" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">📋</span>GEMINICLI : Configuration & Resilience
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ GEMINICLI</span>
+                    <span class="badge badge-ctx">📋 Audit</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Flags, Identite et Protocoles de Survie</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Agent: GEMINICLI | Identity: Turbo (User)
+Flags: --checkpointing --memory --allow-edits --retry 5 --timeout 3600 --yolo
+Resilience: ERROR-LOOP (5 hypotheses) | RESET: ENVIRONMENT_RESET()
+Buffer: 1M+ | Render: False
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="gemini" data-context="audit" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🧩</span>GEMINICLI : 65 Skills Ordonnes
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ GEMINICLI</span>
+                    <span class="badge badge-ctx">📋 Audit</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Inventaire complet (~/.gemini/skills)</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Core: auto-debug, auto-learn, mao-workflow, skill-creator
+SRE: cluster-management, healthcheck, perf-tuning, smart-routing
+IA: weighted-orchestration, project-architect, trading-pipeline
+Social/Web: slack, discord, wacli, browser-workflow
+Hardware: jgpu, nvidia-smi integration
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="gemini" data-context="audit" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🏗️</span>GEMINICLI : Hardware & Pre-requis
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">⚡ GEMINICLI</span>
+                    <span class="badge badge-ctx">📋 Audit</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Cluster 5 GPUs (M1-OPS)</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+OS: Linux (Root) | Node.js v22.22.1 | GEMINICLI v2026.3
+Hardware: Ryzen 7 5700X3D | 46GB RAM | ZRAM 12GB
+Cluster: RTX 2060, 3x 1660S, RTX 3080
+Monitoring: jgpu, jaudit, jlogs
+Paths: ~/.gemini/ | ~/.openclaw/ | ~/.bash_aliases_jarvis
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
 
             <!-- ========== GEMINI CARDS ========== -->
 
@@ -474,6 +555,30 @@ Projet : Jarvis Linux.
 4) Pour l'infra/Linux/SRE, structure : Goal/Plan/Code/Verify.
 5) Pour un refactor, structure : Goal/Analysis/Changes/Tests.
 6) Agis comme l'agent principal du terminal, execute, verifie et resume clairement.
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+                </div>
+            </div>
+
+            <div class="usage-card" data-tool="codex" data-context="automation" data-app="terminal">
+                <div class="usage-title">
+                    <span class="usage-icon">🔁</span>Mode autonome complet
+                </div>
+                <div class="card-badges">
+                    <span class="badge badge-tool">💻 Codex</span>
+                    <span class="badge badge-ctx">🤖 Automation</span>
+                    <span class="badge badge-app">🖥️ Terminal</span>
+                </div>
+                <div class="context">Contexte : poursuivre sans arret avec audit, plan, execution, verification et boucle jusqu'au resultat complet</div>
+                <div class="prompt-box" onclick="copyPrompt(this)">
+Tu dois poursuivre completement sans t'arreter.
+1) Commence par un audit complet de l'etat actuel.
+2) Fais un plan mode detaille avant les modifications.
+3) Execute les changements necessaires.
+4) Verifie avec un audit complet apres chaque etape importante.
+5) Si quelque chose est incomplet, recode, modifie et relance la boucle.
+6) Continue jusqu'au resultat complet, sans oubli, sans t'arreter a une demi-solution.
+7) Termine par un etat final verifie, les risques restants et ce qui a ete corrige.
+Structure : Goal/Plan/Code/Verify.
 <button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
                 </div>
             </div>
