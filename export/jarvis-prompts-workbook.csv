@@ -1,0 +1,62 @@
+ID,Outil,Type,Nom,Contexte,Theme,Usage,Status
+cc-sys-01,Claude Code,Systeme,Demarrage session standard,Toute session,session,session,ready
+cc-sys-02,Claude Code,Systeme,Session Linux performance + Jarvis,Infra/performance,infra,session,ready
+cc-sys-03,Claude Code,Systeme,Session refactor multi-fichiers,Refactoring,code,session,ready
+cc-task-01,Claude Code,Tache,Refactoring module,Dette technique,code,refactor,ready
+cc-task-02,Claude Code,Tache,Generation de tests,Avant merge,tests,quality,ready
+cc-task-03,Claude Code,Tache,Debug cible,Incident,debug,fix,ready
+cc-task-04,Claude Code,Tache,Optimisation performance code,Bottleneck,performance,optimize,ready
+cc-task-05,Claude Code,Tache,Architecture avant de coder,Nouveau feature,architecture,design,ready
+cc-task-06,Claude Code,Tache,Mise en route Jarvis sur Linux,Deploiement,infra,deploy,ready
+cc-task-07,Claude Code,Tache,Audit Linux centre Jarvis,Pre-installation,audit,audit,ready
+cc-task-08,Claude Code,Tache,Review globale de repo,Prise en main,review,audit,ready
+gc-sys-01,Gemini CLI,Systeme,Demarrage session standard,Toute session,session,session,ready
+gc-sys-02,Gemini CLI,Systeme,Session Linux + Jarvis + multi-GPU,Cluster GPU,infra,session,ready
+gc-task-01,Gemini CLI,Tache,Generation de code,Nouveau feature,code,create,ready
+gc-task-02,Gemini CLI,Tache,Reprise de conversation,Continuite,session,resume,ready
+gc-task-03,Gemini CLI,Tache,Lecture memoire projet,Reprise projet,memory,recall,ready
+gc-task-04,Gemini CLI,Tache,Audit performance Linux,Avant tuning,audit,audit,ready
+gc-task-05,Gemini CLI,Tache,Design systeme Jarvis,Conception,architecture,design,ready
+gc-task-06,Gemini CLI,Tache,Demarrage session Codex CLI,Infra/terminal,session,session,ready
+gc-task-07,Gemini CLI,Tache,Audit reconstruction machine,Migration,audit,audit,ready
+gc-task-08,Gemini CLI,Tache,Refactor incremental,Nettoyage,code,refactor,ready
+gc-task-09,Gemini CLI,Tache,Infra et services Jarvis,Debug infra,infra,maintain,ready
+gc-task-10,Gemini CLI,Tache,Debug cible,Incident,debug,fix,ready
+gc-task-11,Gemini CLI,Tache,Mode autonome complet,Execution longue,automation,auto,ready
+cx-sys-01,Codex CLI,Systeme,Demarrage session standard,Toute session,session,session,ready
+cx-sys-02,Codex CLI,Systeme,Session Linux performance expert,Tuning OS,infra,session,ready
+cx-task-01,Codex CLI,Tache,Generation de script infra,Automatisation,infra,create,ready
+cx-task-02,Codex CLI,Tache,Debug cible,Incident,debug,fix,ready
+cx-task-03,Codex CLI,Tache,Mise en route Jarvis,Deploiement,infra,deploy,ready
+cx-task-04,Codex CLI,Tache,Creation de code,Nouveau module,code,create,ready
+cx-task-05,Codex CLI,Tache,Ancrage indestructible Jarvis,Production GPU,resilience,deploy,ready
+px-sys-01,Perplexity,Systeme,Demarrage session technique,Toute session,session,session,ready
+px-task-01,Perplexity,Tache,Recherche + plan implementation,Avant dev,recherche,research,ready
+px-task-02,Perplexity,Tache,Comparatif decisionnel,Choix techno,decision,compare,ready
+px-task-03,Perplexity,Tache,Audit Linux centre Jarvis,Pre-installation,audit,audit,ready
+px-task-04,Perplexity,Tache,Cadrage de projet,Kickoff,planning,plan,ready
+bo-sys-01,BrowserOS,Systeme,Demarrage session navigateur,Automation web,session,session,ready
+bo-task-01,BrowserOS,Tache,Extraction de donnees,Collecte,scraping,extract,ready
+bo-task-02,BrowserOS,Tache,Automatiser routine web,Workflow web,automation,automate,ready
+bo-task-03,BrowserOS,Tache,Verification dashboard,Monitoring,monitoring,check,ready
+bo-task-04,BrowserOS,Tache,Recherche web pilotee,Veille,recherche,research,ready
+jc-sys-01,Jarvis Core,Systeme,Demarrage session orchestrateur,Boot Jarvis,session,session,ready
+jc-task-01,Jarvis Core,Tache,Planification multi-outils,Tache complexe,orchestration,plan,ready
+jc-task-02,Jarvis Core,Tache,Securite avant action,Pre-execution,securite,validate,ready
+jc-task-03,Jarvis Core,Tache,Conception flux multi-modeles,Integration LLM,architecture,design,ready
+jc-task-04,Jarvis Core,Tache,Prompt router,Delegation,routing,route,ready
+jc-task-05,Jarvis Core,Tache,Plan action cross-outils,Multi-domaines,orchestration,plan,ready
+jc-task-06,Jarvis Core,Tache,Optimisation radicale OS,Tuning avance,performance,optimize,ready
+jc-task-07,Jarvis Core,Tache,Gestion thermique GPU,Jobs longs,hardware,monitor,ready
+cg-sys-01,ChatGPT,Systeme,Demarrage session standard,Toute session,session,session,ready
+cg-task-01,ChatGPT,Tache,Architecture avant de coder,Nouveau projet,architecture,design,ready
+cg-task-02,ChatGPT,Tache,Refactor propre,Dette technique,code,refactor,ready
+cg-task-03,ChatGPT,Tache,Generation de tests,Couverture,tests,quality,ready
+cg-task-04,ChatGPT,Tache,Debug cible,Incident,debug,fix,ready
+cg-task-05,ChatGPT,Tache,Optimisation performance,Bottleneck,performance,optimize,ready
+cg-task-06,ChatGPT,Tache,Comparatif technos,Decision,decision,compare,ready
+ga-sys-01,Gemini App,Systeme,Demarrage session Gemini App,Interface desktop,session,session,ready
+ga-task-01,Gemini App,Tache,Recherche technique approfondie,Veille,recherche,research,ready
+ga-task-02,Gemini App,Tache,Design interface et UX,Nouveau UI,design,design,ready
+ga-task-03,Gemini App,Tache,Documentation technique,README/guides,docs,document,ready
+ga-task-04,Gemini App,Tache,Brainstorming architecture,Conception,architecture,design,ready

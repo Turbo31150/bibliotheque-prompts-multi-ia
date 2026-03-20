@@ -1,0 +1,158 @@
+{
+  "library": "JARVIS Prompt Library",
+  "version": "1.0",
+  "date": "2026-03-20",
+  "author": "Turbo",
+  "total_prompts": 57,
+  "tools": [
+    {
+      "id": "claude_code",
+      "name": "Claude Code",
+      "type": "CLI/IDE",
+      "prompts": {
+        "system": [
+          {"id": "cc-sys-01", "name": "Demarrage session standard", "context": "Toute session", "usage": "session"},
+          {"id": "cc-sys-02", "name": "Session Linux performance + Jarvis", "context": "Infra/performance", "usage": "session"},
+          {"id": "cc-sys-03", "name": "Session refactor multi-fichiers", "context": "Refactoring", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "cc-task-01", "name": "Refactoring module", "context": "Dette technique", "theme": "code", "usage": "refactor"},
+          {"id": "cc-task-02", "name": "Generation de tests", "context": "Avant merge", "theme": "tests", "usage": "quality"},
+          {"id": "cc-task-03", "name": "Debug cible", "context": "Incident", "theme": "debug", "usage": "fix"},
+          {"id": "cc-task-04", "name": "Optimisation performance code", "context": "Bottleneck", "theme": "performance", "usage": "optimize"},
+          {"id": "cc-task-05", "name": "Architecture avant de coder", "context": "Nouveau feature", "theme": "architecture", "usage": "design"},
+          {"id": "cc-task-06", "name": "Mise en route Jarvis sur Linux", "context": "Deploiement", "theme": "infra", "usage": "deploy"},
+          {"id": "cc-task-07", "name": "Audit Linux centre Jarvis", "context": "Pre-installation", "theme": "audit", "usage": "audit"},
+          {"id": "cc-task-08", "name": "Review globale de repo", "context": "Prise en main", "theme": "review", "usage": "audit"}
+        ]
+      }
+    },
+    {
+      "id": "gemini_cli",
+      "name": "Gemini CLI",
+      "type": "CLI",
+      "prompts": {
+        "system": [
+          {"id": "gc-sys-01", "name": "Demarrage session standard", "context": "Toute session", "usage": "session"},
+          {"id": "gc-sys-02", "name": "Session Linux + Jarvis + multi-GPU", "context": "Cluster GPU", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "gc-task-01", "name": "Generation de code", "context": "Nouveau feature", "theme": "code", "usage": "create"},
+          {"id": "gc-task-02", "name": "Reprise de conversation", "context": "Continuite", "theme": "session", "usage": "resume"},
+          {"id": "gc-task-03", "name": "Lecture memoire projet", "context": "Reprise projet", "theme": "memory", "usage": "recall"},
+          {"id": "gc-task-04", "name": "Audit performance Linux", "context": "Avant tuning", "theme": "audit", "usage": "audit"},
+          {"id": "gc-task-05", "name": "Design systeme Jarvis", "context": "Conception", "theme": "architecture", "usage": "design"},
+          {"id": "gc-task-06", "name": "Demarrage session Codex CLI", "context": "Infra/terminal", "theme": "session", "usage": "session"},
+          {"id": "gc-task-07", "name": "Audit reconstruction machine", "context": "Migration", "theme": "audit", "usage": "audit"},
+          {"id": "gc-task-08", "name": "Refactor incremental", "context": "Nettoyage", "theme": "code", "usage": "refactor"},
+          {"id": "gc-task-09", "name": "Infra et services Jarvis", "context": "Debug infra", "theme": "infra", "usage": "maintain"},
+          {"id": "gc-task-10", "name": "Debug cible", "context": "Incident", "theme": "debug", "usage": "fix"},
+          {"id": "gc-task-11", "name": "Mode autonome complet", "context": "Execution longue", "theme": "automation", "usage": "auto"}
+        ]
+      }
+    },
+    {
+      "id": "codex_cli",
+      "name": "Codex / OpenAI CLI",
+      "type": "CLI",
+      "prompts": {
+        "system": [
+          {"id": "cx-sys-01", "name": "Demarrage session standard", "context": "Toute session", "usage": "session"},
+          {"id": "cx-sys-02", "name": "Session Linux performance expert", "context": "Tuning OS", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "cx-task-01", "name": "Generation de script infra", "context": "Automatisation", "theme": "infra", "usage": "create"},
+          {"id": "cx-task-02", "name": "Debug cible", "context": "Incident", "theme": "debug", "usage": "fix"},
+          {"id": "cx-task-03", "name": "Mise en route Jarvis", "context": "Deploiement", "theme": "infra", "usage": "deploy"},
+          {"id": "cx-task-04", "name": "Creation de code", "context": "Nouveau module", "theme": "code", "usage": "create"},
+          {"id": "cx-task-05", "name": "Ancrage indestructible Jarvis", "context": "Production GPU", "theme": "resilience", "usage": "deploy"}
+        ]
+      }
+    },
+    {
+      "id": "perplexity",
+      "name": "Perplexity",
+      "type": "Recherche",
+      "prompts": {
+        "system": [
+          {"id": "px-sys-01", "name": "Demarrage session technique", "context": "Toute session", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "px-task-01", "name": "Recherche + plan implementation", "context": "Avant dev", "theme": "recherche", "usage": "research"},
+          {"id": "px-task-02", "name": "Comparatif decisionnel", "context": "Choix techno", "theme": "decision", "usage": "compare"},
+          {"id": "px-task-03", "name": "Audit Linux centre Jarvis", "context": "Pre-installation", "theme": "audit", "usage": "audit"},
+          {"id": "px-task-04", "name": "Cadrage de projet", "context": "Kickoff", "theme": "planning", "usage": "plan"}
+        ]
+      }
+    },
+    {
+      "id": "browser_os",
+      "name": "BrowserOS",
+      "type": "Agent navigateur",
+      "prompts": {
+        "system": [
+          {"id": "bo-sys-01", "name": "Demarrage session navigateur", "context": "Automation web", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "bo-task-01", "name": "Extraction de donnees", "context": "Collecte", "theme": "scraping", "usage": "extract"},
+          {"id": "bo-task-02", "name": "Automatiser routine web", "context": "Workflow web", "theme": "automation", "usage": "automate"},
+          {"id": "bo-task-03", "name": "Verification dashboard", "context": "Monitoring", "theme": "monitoring", "usage": "check"},
+          {"id": "bo-task-04", "name": "Recherche web pilotee", "context": "Veille", "theme": "recherche", "usage": "research"}
+        ]
+      }
+    },
+    {
+      "id": "jarvis_core",
+      "name": "Jarvis Core",
+      "type": "Orchestrateur",
+      "prompts": {
+        "system": [
+          {"id": "jc-sys-01", "name": "Demarrage session orchestrateur", "context": "Boot Jarvis", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "jc-task-01", "name": "Planification multi-outils", "context": "Tache complexe", "theme": "orchestration", "usage": "plan"},
+          {"id": "jc-task-02", "name": "Securite avant action", "context": "Pre-execution", "theme": "securite", "usage": "validate"},
+          {"id": "jc-task-03", "name": "Conception flux multi-modeles", "context": "Integration LLM", "theme": "architecture", "usage": "design"},
+          {"id": "jc-task-04", "name": "Prompt router", "context": "Delegation", "theme": "routing", "usage": "route"},
+          {"id": "jc-task-05", "name": "Plan action cross-outils", "context": "Multi-domaines", "theme": "orchestration", "usage": "plan"},
+          {"id": "jc-task-06", "name": "Optimisation radicale OS", "context": "Tuning avance", "theme": "performance", "usage": "optimize"},
+          {"id": "jc-task-07", "name": "Gestion thermique GPU", "context": "Jobs longs", "theme": "hardware", "usage": "monitor"}
+        ]
+      }
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "type": "Chat",
+      "prompts": {
+        "system": [
+          {"id": "cg-sys-01", "name": "Demarrage session standard", "context": "Toute session", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "cg-task-01", "name": "Architecture avant de coder", "context": "Nouveau projet", "theme": "architecture", "usage": "design"},
+          {"id": "cg-task-02", "name": "Refactor propre", "context": "Dette technique", "theme": "code", "usage": "refactor"},
+          {"id": "cg-task-03", "name": "Generation de tests", "context": "Couverture", "theme": "tests", "usage": "quality"},
+          {"id": "cg-task-04", "name": "Debug cible", "context": "Incident", "theme": "debug", "usage": "fix"},
+          {"id": "cg-task-05", "name": "Optimisation performance", "context": "Bottleneck", "theme": "performance", "usage": "optimize"},
+          {"id": "cg-task-06", "name": "Comparatif technos", "context": "Decision", "theme": "decision", "usage": "compare"}
+        ]
+      }
+    },
+    {
+      "id": "gemini_app",
+      "name": "Gemini App",
+      "type": "Application bureau",
+      "prompts": {
+        "system": [
+          {"id": "ga-sys-01", "name": "Demarrage session Gemini App", "context": "Interface desktop", "usage": "session"}
+        ],
+        "tasks": [
+          {"id": "ga-task-01", "name": "Recherche technique approfondie", "context": "Veille", "theme": "recherche", "usage": "research"},
+          {"id": "ga-task-02", "name": "Design interface et UX", "context": "Nouveau UI", "theme": "design", "usage": "design"},
+          {"id": "ga-task-03", "name": "Documentation technique", "context": "README/guides", "theme": "docs", "usage": "document"},
+          {"id": "ga-task-04", "name": "Brainstorming architecture", "context": "Conception", "theme": "architecture", "usage": "design"}
+        ]
+      }
+    }
+  ]
+}

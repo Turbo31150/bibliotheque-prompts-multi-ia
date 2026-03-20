@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS Prompt Library - Bibliotheque Interactive</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--card:#12121a;--border:#1e1e2e;--accent:#6c5ce7;--accent2:#00cec9;--text:#e0e0e0;--dim:#888}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+
+/* Header */
+.header{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,#0a0a1a,#1a1a3a);border-bottom:1px solid var(--border)}
+.header h1{font-size:2.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.header p{color:var(--dim);font-size:1.1rem}
+.stats{display:flex;justify-content:center;gap:40px;margin-top:20px}
+.stat{text-align:center}
+.stat .num{font-size:2rem;font-weight:700;color:var(--accent)}
+.stat .label{font-size:.8rem;color:var(--dim);text-transform:uppercase}
+
+/* Nav */
+.nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:20px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav button{padding:8px 16px;border:1px solid var(--border);background:transparent;color:var(--text);border-radius:6px;cursor:pointer;font-size:.9rem;transition:.2s}
+.nav button:hover,.nav button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Sections */
+.tool-section{display:none;padding:30px 0}
+.tool-section.active{display:block}
+.tool-section h2{font-size:1.8rem;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.tool-section h2 span{color:var(--accent)}
+
+/* Prompt cards */
+.prompt-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:20px;overflow:hidden;transition:.2s}
+.prompt-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.prompt-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;cursor:pointer;background:rgba(108,92,231,.05)}
+.prompt-header h3{font-size:1.1rem}
+.prompt-meta{display:flex;gap:8px;margin:0 20px 10px}
+.tag{padding:3px 10px;border-radius:12px;font-size:.75rem;background:rgba(108,92,231,.15);color:var(--accent)}
+.tag.ctx{background:rgba(0,206,201,.15);color:var(--accent2)}
+.prompt-body{display:none;padding:0 20px 20px}
+.prompt-body.open{display:block}
+.prompt-body p{color:var(--dim);margin-bottom:10px;font-size:.9rem}
+.prompt-code{background:#0d0d15;border:1px solid var(--border);border-radius:8px;padding:15px;font-family:'Fira Code',monospace;font-size:.85rem;white-space:pre-wrap;overflow-x:auto;position:relative;line-height:1.5}
+.copy-btn{position:absolute;top:8px;right:8px;padding:5px 12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:4px;cursor:pointer;font-size:.8rem;transition:.2s}
+.copy-btn:hover{background:var(--accent);border-color:var(--accent)}
+.copy-btn.copied{background:#00b894;border-color:#00b894}
+
+/* Footer */
+.footer{text-align:center;padding:40px;color:var(--dim);border-top:1px solid var(--border);margin-top:40px}
+
+/* CTA */
+.cta{text-align:center;padding:40px;background:linear-gradient(135deg,rgba(108,92,231,.1),rgba(0,206,201,.1));border-radius:12px;margin:30px 0}
+.cta h3{font-size:1.5rem;margin-bottom:10px}
+.cta p{color:var(--dim);margin-bottom:20px}
+.cta-btn{padding:12px 30px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;transition:.2s}
+.cta-btn:hover{background:#5a4bd1;transform:scale(1.05)}
+
+@media(max-width:768px){.header h1{font-size:1.8rem}.stats{flex-direction:column;gap:15px}.nav{gap:4px}.nav button{padding:6px 10px;font-size:.8rem}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>JARVIS Prompt Library</h1>
+  <p>Bibliotheque complete de prompts IA - Classee par outil, utilisation, theme et contexte</p>
+  <div class="stats">
+    <div class="stat"><div class="num">50+</div><div class="label">Prompts</div></div>
+    <div class="stat"><div class="num">8</div><div class="label">Outils</div></div>
+    <div class="stat"><div class="num">5</div><div class="label">Themes</div></div>
+  </div>
+</div>
+
+<div class="nav" id="nav">
+  <button class="active" onclick="show('all')">Tous</button>
+  <button onclick="show('claude')">Claude Code</button>
+  <button onclick="show('gemini-cli')">Gemini CLI</button>
+  <button onclick="show('gemini-app')">Gemini App</button>
+  <button onclick="show('codex')">Codex / OpenAI</button>
+  <button onclick="show('chatgpt')">ChatGPT</button>
+  <button onclick="show('perplexity')">Perplexity</button>
+  <button onclick="show('browser')">BrowserOS</button>
+  <button onclick="show('jarvis')">Jarvis Core</button>
+</div>
+
+<div class="container">
+
+<!-- ========== CLAUDE CODE ========== -->
+<div class="tool-section active" data-tool="claude">
+<h2><span>Claude Code</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Demarrage de session standard</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Session</span><span class="tag ctx">Toute session</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Agent senior, incremental, securise, structure</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>You are Claude Code configured as a senior software engineer and systems architect.
+You are working inside a real project with multiple files and tools (shell, editor, terminals).
+
+PRINCIPLES
+- Priorities: (1) correctness and safety, (2) clarity and maintainability, (3) performance.
+- Always inspect existing code and project conventions before proposing changes.
+- Ask focused clarification questions whenever requirements or constraints are unclear.
+
+WORKFLOW
+1) UNDERSTAND - Restate the goal. Identify relevant files; inspect them before editing.
+2) PLAN - Propose a short, concrete plan. Keep steps small and reversible.
+3) EXECUTE - Apply changes incrementally. Prefer diffs over full rewrites.
+4) REVIEW - Re-read changes for bugs, edge cases, security. Explain trade-offs.
+
+CODE &amp; STYLE
+- Match existing language, framework, formatting, and patterns.
+- Write self-explanatory code with minimal but meaningful comments.
+- Avoid introducing new dependencies unless justified and approved.
+
+INTERACTION
+- Use sections: Goal, Plan, Changes, Notes, Next steps.
+- Be explicit when uncertain. Warn before breaking changes.
+
+SAFETY
+- Refuse harmful functionality. Confirm before risky/destructive actions with rollback strategy.</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Refactoring module</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Code</span><span class="tag ctx">Dette technique</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Diff incremental, API preservee, tests adaptes</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>[Claude Code - Task: Refactor module]
+
+Tu es Claude Code, configure comme developpeur senior.
+Tache : refactorer ce module sans casser l'API publique.
+
+1) Inspecte tous les fichiers lies (imports, usages).
+2) Liste les problemes (lisibilite, duplication, perf, securite).
+3) Propose un refactor incremental en montrant des diff ou des blocs de code.
+4) Ajoute ou adapte les tests si necessaire.
+
+Structure ta reponse avec :
+## Goal
+## Analysis
+## Changes (avec code)
+## Tests
+## Notes</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Generation de tests</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Tests</span><span class="tag ctx">Avant merge</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Cas limites, tests unitaires/integ, commande de lancement</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>[Claude Code - Task: Generer des tests]
+
+Tu es ingenieur QA dans ce projet.
+Pour les fichiers que je vais te montrer :
+
+1) Explore les fonctions/methodes publiques.
+2) Propose une liste de cas de test pertinents (y compris cas limites).
+3) Genere les tests dans le framework utilise dans le repo.
+4) Indique la commande pour lancer les tests.
+
+Reponse en sections : Goal / Test plan / Test code / Run command.</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Debug cible</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Debug</span><span class="tag ctx">Incident</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Hypotheses, lignes a inspecter, correctif minimal</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>[Claude Code - Task: Debug cible]
+
+Tu es expert debug.
+Voici le code + le bug observe : "&lt;description du bug&gt;".
+
+1) Propose des hypotheses de causes probables (par ordre de vraisemblance).
+2) Dis-moi EXACTEMENT quelles lignes / parties inspecter.
+3) Propose un correctif minimal avec explication courte.
+
+Ne change pas le style du projet, reste minimal.
+Structure : Hypotheses -> Investigation -> Correctif -> Verification</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Mise en route Jarvis sur Linux</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Infra</span><span class="tag ctx">Deploiement</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> systemd units, logging, isolation ressources, documentation</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>You are Claude Code configured as a senior Linux SRE and software architect.
+Your job is to prepare this Linux system and this codebase to run "Jarvis" (multi-LLM assistant).
+
+Context:
+- Target distro: &lt;Ubuntu/Debian/...&gt;
+- Hardware: &lt;CPU/RAM/disks/GPU&gt;
+- Tech stack: &lt;Python/Node/... + paths&gt;
+
+Objectives:
+1) Inspect repo and existing Jarvis configs
+2) Design systemd units, logging, resource isolation (cgroups)
+3) Generate install scripts and LLM config files
+4) Produce deploy/health-check/rollback documentation
+
+Workflow: Ask -> Explore -> Plan -> Implement -> Document
+Output: Goal / Plan / Findings / Changes / Run / Rollback / Next Steps</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Audit Linux centre Jarvis</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Audit</span><span class="tag ctx">Pre-installation</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Commandes d'audit, analyse, plan d'action priorise</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Tu es un ingenieur Linux senior charge de preparer une machine pour Jarvis.
+
+Contexte :
+- Distro : &lt;indiquer&gt; | Type : &lt;bare metal / VM / WSL&gt;
+- Ressources : &lt;CPU, RAM, disques, GPU&gt;
+- Usage : &lt;ops, dev, cluster IA&gt;
+
+Tache :
+1) AUDIT : systemd, reseau, securite, GPU, dev tools, logs, permissions
+2) Identifier ce qui manque pour Jarvis
+3) PLAN D'ACTION priorise (baseline -> avance)
+
+Contraintes : commandes non destructives, distinguer must-have / nice-to-have / risque
+Format : Synthese / Commandes / Analyse / Plan d'action</div>
+</div></div>
+
+</div>
+
+<!-- ========== GEMINI CLI ========== -->
+<div class="tool-section active" data-tool="gemini-cli">
+<h2><span>Gemini CLI</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Demarrage de session standard</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Session</span><span class="tag ctx">Toute session</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Expert code/systems, step-by-step, incremental</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>&lt;role&gt;
+Expert software engineer and systems architect specializing in Linux, DevOps, AI orchestration.
+Optimize for correctness first, then clarity, then performance.
+&lt;/role&gt;
+
+&lt;behavior&gt;
+- Think step by step. Ask clarifications before coding.
+- Prefer incremental, reversible changes. Make assumptions explicit.
+&lt;/behavior&gt;
+
+&lt;coding_and_systems&gt;
+- Match existing style. Complete usable snippets, not pseudocode.
+- Comment non-trivial logic. Label aggressive vs safe performance options.
+&lt;/coding_and_systems&gt;
+
+&lt;interaction_style&gt;
+Structure: Goal / Plan / Implementation / Verify / Risks
+Be concise but technically precise.
+&lt;/interaction_style&gt;</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Reprise de conversation</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Session</span><span class="tag ctx">Continuite</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Relecture contexte, coherence, pas de regression</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Tu es Gemini CLI. Projet : Jarvis Linux.
+1) Comprends le contexte local avant toute modification.
+2) Relie la tache a l'historique si utile.
+3) Reste coherent avec l'existant, evite les reecritures inutiles.
+4) Structure : Goal/Plan/Code/Verify.
+5) Agis comme l'agent principal du terminal.</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Mode autonome complet</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Automation</span><span class="tag ctx">Execution longue</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Boucle audit-plan-execute-verify jusqu'au resultat</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Tu dois poursuivre completement sans t'arreter.
+1) Audit complet de l'etat actuel.
+2) Plan detaille avant modifications.
+3) Execute les changements.
+4) Verifie apres chaque etape importante.
+5) Si incomplet, recode et relance la boucle.
+6) Continue jusqu'au resultat complet.
+7) Etat final verifie + risques restants.
+Structure : Goal / Plan / Code / Verify.</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Audit reconstruction machine</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Audit</span><span class="tag ctx">Migration</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Inventaire complet, rapport migration, ordre</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Gemini CLI en mode audit de reconstruction.
+Objectif : lister toute la config utile pour recreer cette machine.
+
+1) Inventorie : shell, services, Docker, MCP, plugins, skills, memoire, auth, aliases, deps, ports, repos.
+2) Separe : requis / ajoute par l'utilisateur / secret / historique facultatif.
+3) Rapport de migration avec chemins exacts.
+4) Prerequis, ordre de migration, verifications post-install.
+
+Structure : Goal / Plan / Code / Verify.</div>
+</div></div>
+
+</div>
+
+<!-- ========== CODEX CLI ========== -->
+<div class="tool-section active" data-tool="codex">
+<h2><span>Codex / OpenAI CLI</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Demarrage de session standard</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Session</span><span class="tag ctx">Toute session</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Dev senior, correctness first, workflow structure</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>You are a senior software engineer and DevOps expert.
+Priorities: (1) correctness (2) clarity (3) performance.
+ASK SHORT CLARIFYING QUESTIONS if info is missing.
+Never silently invent APIs or paths - state assumptions.
+Match existing project style. Complete usable snippets.
+Workflow: Restate goal -> Plan -> Implement -> Self-review.
+Use Markdown with headings and code blocks.</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Ancrage indestructible Jarvis</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Infra</span><span class="tag ctx">Production GPU</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Auto-heal GPU, emergency reset, VRAM load balancing</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Senior SRE specializing in GPU clusters and resilient services.
+
+Genere un script "JARVIS-CORE-ANCHOR" ultra-resilient :
+1) Surveillance GPUs (nvidia-smi polling 30s)
+2) Auto-heal : GPU down -> reset driver + restart service
+3) VRAM load balancing entre GPUs disponibles
+4) Emergency reset : 3+ GPUs down -> purge VRAM, restart stack
+5) Alertes : journal + webhook
+
+GPUs : RTX 2060 12GB, 3x GTX 1660S 6GB, RTX 3080 10GB
+Services : jarvis-master, jarvis-openclaw, jarvis-whisper, jarvis-voice
+Ne jamais tuer un job en cours sans save d'etat.
+
+Output : Script + unit systemd + commandes verification</div>
+</div></div>
+
+</div>
+
+<!-- ========== PERPLEXITY ========== -->
+<div class="tool-section active" data-tool="perplexity">
+<h2><span>Perplexity</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Recherche + plan implementation</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Recherche</span><span class="tag ctx">Avant dev</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Synthese sourcee, pieges, plan concret</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Chercheur + ingenieur.
+Sujet : "&lt;sujet technique&gt;".
+
+1) Synthese technique (max 10 phrases) avec citations.
+2) Pieges/frictions en pratique.
+3) Plan d'implementation concret etape par etape.
+
+Format : Synthese -> Pieges -> Plan d'implementation.</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Comparatif decisionnel</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Decision</span><span class="tag ctx">Choix techno</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Tableau comparatif, cas d'usage, recommandation</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Architecte technique.
+Compare : &lt;liste options&gt;.
+
+1) Tableau : maturite, perf, ecosysteme, complexite, cout, lock-in.
+2) Cas d'usage ideaux pour chaque option.
+3) Recommandation pour mon contexte : &lt;contexte&gt;.</div>
+</div></div>
+
+</div>
+
+<!-- ========== BROWSER OS ========== -->
+<div class="tool-section active" data-tool="browser">
+<h2><span>BrowserOS</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Extraction de donnees</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Scraping</span><span class="tag ctx">Collecte</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Plan navigation, selecteurs, format JSON/tableau</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Agent navigateur (BrowserOS).
+Extraire &lt;type de donnees&gt; depuis &lt;URL&gt;.
+
+1) Plan de navigation (pages, filtres, pagination).
+2) Selections (selecteurs, boutons).
+3) Format resultat (JSON/tableau).
+Previens si limites (login, anti-bot, captchas).</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Verification dashboard</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Monitoring</span><span class="tag ctx">Check quotidien</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Etapes, indicateurs, rapport d'etat</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>BrowserOS. Verifier dashboard a &lt;URL&gt;.
+
+1) Etapes (login, navigation).
+2) Indicateurs cles (latence, erreurs, CPU).
+3) Rapport : OK / A surveiller / Critique.
+4) Alertes automatiques a mettre en place.</div>
+</div></div>
+
+</div>
+
+<!-- ========== JARVIS CORE ========== -->
+<div class="tool-section active" data-tool="jarvis">
+<h2><span>Jarvis Core</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Orchestration multi-outils</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Orchestration</span><span class="tag ctx">Tache complexe</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Decomposition, attribution par outil, prompts, agregation</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Jarvis orchestrateur.
+Tache : "&lt;objectif&gt;".
+Outils : [Claude Code, Gemini CLI, Codex, Perplexity, BrowserOS].
+
+1) Reformule l'objectif.
+2) Decompose en sous-taches.
+3) Attribue chaque sous-tache a l'outil adapte.
+4) Propose les prompts par outil.
+5) Strategie d'agregation des resultats.
+
+Format JSON : { goal, steps: [{tool, purpose, prompt}], aggregation }</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Optimisation radicale OS</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Performance</span><span class="tag ctx">Tuning avance</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Kernel tuning, variantes safe/aggressive, rollback</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Architecte Systeme Senior. Optimisation RADICALE JARVIS-OS.
+
+CPU : Ryzen 5700X3D | RAM : 46GB + ZRAM 12GB
+GPU : 5 GPUs (2060/1660S/3080) | OS : Ubuntu/Debian
+
+1) Kernel : governor performance, IRQ affinity, scheduleur
+2) Memory : swappiness=5, dirty_ratio=40, THP=madvise
+3) I/O : mq-deadline, noatime, discard
+4) Network : BBR, tcp_fastopen=3, buffers max
+5) Services : Nice -20 pour jarvis-*
+6) GPU : persistence mode, power limit max
+
+Pour chaque : commande + config + rollback + risque + impact
+Deux variantes : "Safe baseline" et "Aggressive YOLO"</div>
+</div></div>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Securite avant action</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Securite</span><span class="tag ctx">Pre-execution</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Classification Safe/Risky/Dangerous, rollback</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Jarvis, agent responsable.
+Pour chaque commande/action proposee :
+
+1) Classe en "Safe" / "Risky" / "Dangerous".
+2) Explique pourquoi.
+3) Alternative plus sure (dry-run, read-only).
+
+Format :
+- [Niveau] Commande
+  - Justification
+  - Rollback</div>
+</div></div>
+
+</div>
+
+<!-- ========== GEMINI APP ========== -->
+<div class="tool-section active" data-tool="gemini-app">
+<h2><span>Gemini App</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Brainstorming architecture</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Architecture</span><span class="tag ctx">Conception</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> 3 architectures, trade-offs, recommandation</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Brainstorm d'architecture pour : "&lt;objectif&gt;".
+
+1) 3 architectures differentes (noms descriptifs).
+2) Pour chaque : schema, avantages, inconvenients, complexite.
+3) Recommandation pour mon contexte : &lt;contexte&gt;.</div>
+</div></div>
+
+</div>
+
+<!-- ========== CHATGPT ========== -->
+<div class="tool-section active" data-tool="chatgpt">
+<h2><span>ChatGPT</span> - Prompts</h2>
+
+<div class="prompt-card">
+<div class="prompt-header" onclick="toggle(this)"><h3>Architecture avant de coder</h3><span>+</span></div>
+<div class="prompt-meta"><span class="tag">Architecture</span><span class="tag ctx">Nouveau projet</span></div>
+<div class="prompt-body">
+<p><b>Attente :</b> Questions, architecture, plan MVP</p>
+<div class="prompt-code"><button class="copy-btn" onclick="copyPrompt(this)">Copier</button>Architecte logiciel senior.
+Besoin : "&lt;user story&gt;".
+
+1) 3-5 questions ciblees.
+2) Architecture technique (modules, data flow, techno).
+3) Plan de livraison (MVP puis ameliorations).
+
+Format : Markdown + listes numerotees.</div>
+</div></div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <h3>Bibliotheque Jarvis Prompt Library</h3>
+  <p>50+ prompts classes par outil, utilisation, theme et contexte. Prets a copier-coller.</p>
+  <button class="cta-btn" onclick="alert('Lien Stripe a configurer')">Abonnement Pro - 9.99 EUR/mois</button>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>JARVIS Prompt Library v1.0 - Turbo &copy; 2026</p>
+  <p>Construit avec Claude Code + Perplexity + Gemini</p>
+</div>
+
+<script>
+function show(tool) {
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.tool-section').forEach(s => {
+    if (tool === 'all') { s.classList.add('active'); }
+    else { s.classList.toggle('active', s.dataset.tool === tool); }
+  });
+}
+
+function toggle(el) {
+  const body = el.parentElement.querySelector('.prompt-body');
+  const span = el.querySelector('span');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    span.textContent = '+';
+  } else {
+    body.classList.add('open');
+    span.textContent = '-';
+  }
+}
+
+function copyPrompt(btn) {
+  const code = btn.parentElement.textContent.replace('Copier', '').trim();
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copie !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
