@@ -1,0 +1,53 @@
+# JARVIS-TURBO v12.6 — Environment Variables
+# Copy to .env and fill in your values
+
+# ── Cluster IA ────────────────────────────────────────────────────────────────
+LM_STUDIO_1_URL=http://127.0.0.1:1234
+LM_STUDIO_1_KEY=
+LM_STUDIO_2_URL=http://192.168.1.26:1234
+LM_STUDIO_2_KEY=
+LM_STUDIO_3_URL=http://192.168.1.113:1234
+LM_STUDIO_3_KEY=
+OLLAMA_URL=http://127.0.0.1:11434
+
+# ── Gemini ────────────────────────────────────────────────────────────────────
+GEMINI_API_KEY=
+GEMINI_API_KEY_TURBO=
+
+# ── Telegram ──────────────────────────────────────────────────────────────────
+TELEGRAM_TOKEN=
+TELEGRAM_CHAT=
+
+# ── Trading ───────────────────────────────────────────────────────────────────
+MEXC_API_KEY=
+MEXC_SECRET_KEY=
+COINEX_ACCESS_ID=
+COINEX_SECRET_KEY=
+DRY_RUN=true
+
+# ── OpenClaw ──────────────────────────────────────────────────────────────────
+OPENCLAW_CONFIG_DIR=/app/config
+OPENCLAW_GATEWAY_CONTROL_UI_DANGEROUSLY_ALLOW_HOST_HEADER_ORIGIN_FALLBACK=true
+OPENCLAW_CONTROL_UI_ALLOWED_ORIGINS=["*"]
+
+# ── Runtime ───────────────────────────────────────────────────────────────────
+TURBO=/app
+PYTHONPATH=.
+PYTHONUNBUFFERED=1
+JARVIS_VERSION=12.6
+TURBO_MODE=ACTIVE
+
+# ── Security Tokens ──────────────────────────────────────────────────────────
+MCP_API_KEY=
+VOICE_MCP_TOKEN=
+WHISPERFLOW_MCP_TOKEN=
+
+# === AUTHENTICATION (optionnel — si vide, pas d'auth requise) ===
+JARVIS_API_KEY=                                # Clé admin (accès complet)
+JARVIS_VIEWER_KEY=                             # Clé viewer (lecture seule)
+
+# === VOICE ===
+JARVIS_LANGUAGE=fr  # fr, en, es
+
+# === DISCORD ===
+DISCORD_WEBHOOK_URL=

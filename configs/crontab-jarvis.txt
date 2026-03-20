@@ -1,0 +1,12 @@
+0 8 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/daily_briefing.js >> /home/turbo/jarvis-linux/logs/cron.log 2>&1
+0 */4 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/linkedin_growth.js >> /home/turbo/jarvis-linux/logs/cron.log 2>&1
+*/5 * * * * /usr/bin/python3 /home/turbo/jarvis-linux/scripts/autonomy_pulse.py --telegram
+*/10 * * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/gpu_thermal_guard.js >> /home/turbo/jarvis-linux/logs/gpu_thermal.log 2>&1
+*/15 * * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/health_patrol.js >> /home/turbo/jarvis-linux/logs/health_patrol.log 2>&1
+*/30 * * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/metrics_snapshot.js >> /home/turbo/jarvis-linux/logs/metrics_snapshot.log 2>&1
+0 * * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/trading_monitor.js >> /home/turbo/jarvis-linux/logs/trading_monitor.log 2>&1
+0 */2 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/github_watchdog.js >> /home/turbo/jarvis-linux/logs/github_watchdog.log 2>&1
+0 */6 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/log_digest.js >> /home/turbo/jarvis-linux/logs/log_digest.log 2>&1
+0 3 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/backup_auto.js >> /home/turbo/jarvis-linux/logs/backup_auto.log 2>&1
+0 4 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/rag_reindex.js >> /home/turbo/jarvis-linux/logs/rag_reindex.log 2>&1
+0 7 * * * /usr/bin/node /home/turbo/jarvis-linux/automation/browser_runner.js /home/turbo/jarvis-linux/automation/tasks/daily_research.js >> /home/turbo/jarvis-linux/logs/daily_research.log 2>&1
