@@ -7,7 +7,7 @@
 
 ### Ce que contient ce dépôt
 
-- **37 skills** Claude Code avec leurs prompts complets et détaillés
+- **31 skills** Claude Code avec leurs prompts complets et détaillés
 - **22 plugins** documentés, configurés et prêts à l'emploi
 - **Configuration de A à Z**, reproductible par n'importe qui
 - **Prompts pour 12 outils IA** : Claude, Gemini, ChatGPT, Codex, Perplexity, BrowserOS, OpenClaw, n8n, LM Studio, Ollama, DeepSeek, Qwen
@@ -551,7 +551,7 @@ bibliotheque-prompts-multi-ia/
 | Métrique | Valeur |
 |---|---|
 | Prompts documentés | 245+ |
-| Skills avec prompts complets | 37 |
+| Skills avec prompts complets | 31 |
 | Plugins configurés et documentés | 22 |
 | Serveurs MCP connectés | 11 |
 | Hooks actifs | 4 |
