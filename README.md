@@ -1,133 +1,150 @@
-# Bibliothèque de Prompts Multi-IA
+<div align="center">
+  <img src="assets/logo.svg" alt="PROMPT·VAULT" width="520"/>
+  <br/><br/>
 
-> Toute la configuration, les prompts et les skills pour **12 outils IA**,
-> un cluster GPU distribué et un assistant vocal complet.
-> Reproductible de zéro par n'importe qui.
+  [![License: MIT](https://img.shields.io/badge/License-MIT-C084FC?style=flat-square)](LICENSE)
+  [![HTML](https://img.shields.io/badge/HTML5-standalone-E34F26?style=flat-square&logo=html5&logoColor=white)](#)
+  [![Prompts](https://img.shields.io/badge/300%2B_prompts-curated-C084FC?style=flat-square)](#catalogue)
+  [![IAs](https://img.shields.io/badge/5_IAs-Claude·GPT·Gemini·Perplexity·n8n-F472B6?style=flat-square)](#ias-couvertes)
+  [![Stars](https://img.shields.io/github/stars/Turbo31150/bibliotheque-prompts-multi-ia?style=flat-square&color=C084FC)](#)
 
----
+  <br/>
+  <p><strong>Bibliothèque de 300+ prompts optimisés · 5 IAs · Claude Code · Gemini CLI · ChatGPT · OpenClaw · n8n</strong></p>
+  <p><em>La référence des prompts JARVIS — chaque prompt testé, optimisé, documenté pour une IA spécifique</em></p>
 
-## Vue d'ensemble
-
-Ce dépôt centralise **tout** ce qu'il faut pour travailler avec les IA modernes :
-prompts, configurations, skills, plugins, serveurs MCP, mémoire et workflows.
-
-Chaque outil a son propre dossier avec un guide dédié.
-Le détail interactif est dans la **[page HTML](#page-interactive)** (245 cartes filtrables, copie en un clic).
-
----
-
-## Les 12 outils documentés
-
-Ouvrir le guide de chaque outil dans l'ordre qui vous intéresse.
-
-### Outils en terminal
-
-| Outil | Guide à lire | Description |
-|---|---|---|
-| **Claude Code** | [`prompts/claude-code/`](prompts/claude-code/) | L'outil principal. 31 skills, 22 plugins, configuration complète. |
-| **Gemini CLI** | [`prompts/gemini-cli/`](prompts/gemini-cli/) | Google Gemini en terminal. Génération, audit, sessions. |
-| **Codex CLI** | [`prompts/codex-cli/`](prompts/codex-cli/) | OpenAI Codex en terminal. Refactoring, performance. |
-
-### Applications navigateur
-
-| Outil | Guide à lire | Description |
-|---|---|---|
-| **Claude (app)** | [`prompts/claude-api/`](prompts/claude-api/) | API Anthropic et intégration directe. |
-| **Gemini (app)** | [`prompts/gemini-app/`](prompts/gemini-app/) | Google Gemini dans le navigateur. |
-| **ChatGPT (app)** | [`prompts/chatgpt/`](prompts/chatgpt/) | Configuration et prompts ChatGPT optimisés. |
-| **Perplexity** | [`prompts/perplexity/`](prompts/perplexity/) | Recherche technique et veille crypto. |
-| **BrowserOS** | [`prompts/browseros/`](prompts/browseros/) | Automatisation web, LinkedIn, MCP. |
-
-### Outils spécialisés
-
-| Outil | Guide à lire | Description |
-|---|---|---|
-| **OpenClaw** | [`prompts/openclaw/`](prompts/openclaw/) | Agent IA autonome. Configuration et prompts. |
-| **n8n** | [`prompts/n8n/`](prompts/n8n/) | 65 workflows d'automatisation JARVIS. |
-| **Multi-IA** | [`prompts/multi-ia/`](prompts/multi-ia/) | Consensus multi-modèle, dispatch cluster. |
-| **Codex OpenAI** | [`prompts/codex-openai/`](prompts/codex-openai/) | Refactoring avancé, intégration JARVIS. |
+  [**Catalogue →**](#-catalogue-des-prompts) · [**IAs →**](#-ias-couvertes) · [**Installation →**](#-utilisation) · [**Contribuer →**](#-contribuer)
+</div>
 
 ---
 
-## Modèles locaux (GPU)
+## Présentation
 
-Cinq familles de modèles configurés pour tourner en local.
-
-| Modèle | Guide à lire | Vitesse | Usage |
-|---|---|---|---|
-| **Qwen3** | [`prompts/models-locaux/qwen3/`](prompts/models-locaux/qwen3/) | 65 tok/s | Champion généraliste |
-| **DeepSeek-R1** | [`prompts/models-locaux/deepseek-r1/`](prompts/models-locaux/deepseek-r1/) | 40 tok/s | Raisonnement avancé |
-| **Gemma** | [`prompts/models-locaux/gemma/`](prompts/models-locaux/gemma/) | 80 tok/s | Classification rapide |
-| **LM Studio** | [`prompts/models-locaux/lm-studio/`](prompts/models-locaux/lm-studio/) | Variable | 7 modèles, API locale |
-| **Ollama** | [`prompts/models-locaux/ollama/`](prompts/models-locaux/ollama/) | Variable | 3 modèles, simple à déployer |
+**PROMPT·VAULT** est la bibliothèque de prompts centralisée de l'écosystème JARVIS. Elle regroupe **300+ prompts** soigneusement testés et optimisés pour **5 IAs différentes** — chaque prompt est classifié par IA cible, cas d'usage, niveau de complexité, et intégration JARVIS.
 
 ---
 
-## Cluster JARVIS
+## Structure du projet
 
-Architecture distribuée sur 3 machines physiques (6 GPUs, 46 Go RAM, 10+ modèles).
-
-| Composant | Guide à lire | Rôle |
-|---|---|---|
-| **Dispatch Engine** | [`prompts/cluster/dispatch-engine/`](prompts/cluster/dispatch-engine/) | Routage intelligent en 9 étapes |
-| **Consensus** | [`prompts/cluster/consensus/`](prompts/cluster/consensus/) | Vote pondéré entre 5 modèles |
-| **Routage** | [`prompts/cluster/routage/`](prompts/cluster/routage/) | Matrice 17 domaines × 6 nœuds |
-| **Self-Healing** | [`prompts/cluster/self-healing/`](prompts/cluster/self-healing/) | Réparation automatique |
-| **GPU Management** | [`prompts/cluster/gpu-management/`](prompts/cluster/gpu-management/) | Garde thermique, allocation VRAM |
-| **Backup** | [`prompts/cluster/backup/`](prompts/cluster/backup/) | 103 bases SQLite, sync quotidien |
-
----
-
-## Configuration Claude Code (de zéro à production)
-
-Pour reproduire l'environnement complet, lire ces fichiers dans l'ordre :
-
-| Étape | Fichier à lire | Ce que ça fait |
-|---|---|---|
-| 1. Audit complet | [`configs/claude-code-complet/AUDIT-COMPLET.md`](configs/claude-code-complet/AUDIT-COMPLET.md) | Comprendre toutes les différences vs une installation vierge. |
-| 2. Permissions | [`configs/claude-code-complet/settings.json`](configs/claude-code-complet/settings.json) | 11 outils auto-autorisés, 22 plugins, voice activé. |
-| 3. Plugins installés | [`configs/claude-code-complet/installed_plugins.json`](configs/claude-code-complet/installed_plugins.json) | Liste des 22 plugins avec versions. |
-| 4. Hooks | `configs/claude-code-complet/hooks-*.json` | 4 automatisations au démarrage et à l'écriture. |
-| 5. Serveurs MCP | `configs/claude-code-complet/mcp-*.json` | 11 connexions externes (GitHub, Calendar, Canva, etc.). |
-| 6. Mémoire | [`configs/claude-code-complet/memory/`](configs/claude-code-complet/memory/) | 10 fichiers de mémoire persistante entre sessions. |
-| 7. CLAUDE.md | [`configs/claude-code-complet/claude-md/`](configs/claude-code-complet/claude-md/) | 4 fichiers d'instructions par projet. |
-| 8. Skills | [`prompts/claude-code/skills/README.md`](prompts/claude-code/skills/README.md) | Index des 31 skills avec triggers et effets. |
+```
+bibliotheque-prompts-multi-ia/
+├── index.html              ← Interface web interactive
+├── README.md               ← Ce fichier
+├── prompts/                ← Prompts par IA
+│   ├── claude/             ← Claude Code + Claude API
+│   ├── gemini/             ← Gemini CLI + Gemini API
+│   ├── chatgpt/            ← GPT-4o + ChatGPT
+│   ├── perplexity/         ← Perplexity AI
+│   └── n8n/                ← Nodes IA n8n
+├── configs/                ← Configs par outil
+│   ├── claude_code.json    ← CLAUDE.md templates
+│   ├── gemini_cli.yaml     ← Gemini CLI configs
+│   └── openclaw.yaml       ← OpenClaw patterns
+├── docs/                   ← Documentation technique
+├── scripts/                ← Outils de gestion
+└── export/                 ← Exports (JSON, CSV, PDF)
+```
 
 ---
 
-## Page interactive
+## Catalogue des prompts
 
-Ouvrir **[`index.html`](index.html)** dans un navigateur :
-
-- **245 cartes** de prompts navigables.
-- **Filtrage par outil** : Claude, Gemini, ChatGPT, Perplexity, BrowserOS.
-- **Filtrage par contexte** : Setup, Code, Debug, Trading, Automation, Monitoring.
-- **Copie en un clic** vers le presse-papiers.
-
-C'est le point d'entrée pour explorer le détail de chaque prompt de manière interactive.
-
----
-
-## Chiffres clés
-
-| Métrique | Valeur |
-|---|---|
-| Outils IA documentés | 12 |
-| Prompts (cartes interactives) | 245+ |
-| Skills Claude Code | 31 |
-| Plugins configurés | 22 |
-| Serveurs MCP | 11 |
-| Workflows n8n | 65 |
-| Modèles locaux | 5 familles |
-| Composants cluster | 6 |
-| Fichiers dans le dépôt | 360+ |
+| Catégorie | Total | Claude | GPT | Gemini | Perplexity | n8n |
+|-----------|-------|--------|-----|--------|------------|-----|
+| **Développement** | 72 | 28 | 18 | 14 | 7 | 5 |
+| **Trading & Finance** | 58 | 20 | 12 | 16 | 10 | — |
+| **Automation** | 52 | 15 | 10 | 12 | 5 | 10 |
+| **Analyse & Recherche** | 46 | 14 | 12 | 10 | 10 | — |
+| **Contenu & Social** | 42 | 12 | 14 | 8 | 8 | — |
+| **Système & Infra** | 35 | 18 | 8 | 5 | 4 | — |
+| **Divers** | 28 | 8 | 8 | 6 | 6 | — |
+| **Total** | **333** | 115 | 82 | 71 | 50 | 15 |
 
 ---
 
-## Auteur
+## IAs couvertes
 
-**[Turbo31150](https://github.com/Turbo31150)** — Créateur de **[JARVIS](https://github.com/Turbo31150/jarvis-linux)**
+### Claude (115 prompts)
+- **Claude Code** — system prompts, CLAUDE.md templates, agent patterns
+- **Claude API** — JSON structured outputs, tool use, multi-turn
+- **Claude Desktop** — MCP configurations, Cowork sessions
 
-> 320 000 lignes de code · 317 modules · 674 endpoints · 1 007 commandes vocales · cluster 3 machines
+### Gemini (71 prompts)
+- **Gemini CLI** — commandes shell, scripts automatisés
+- **Gemini Live API** — voice agents, real-time interactions
+- **Gemini API** — vision, code generation, analysis
 
-*Dernière mise à jour : 20 mars 2026*
+### ChatGPT / GPT-4o (82 prompts)
+- **ChatGPT** — conversations, analysis, generation
+- **GPT-4o** — vision, structured outputs, function calling
+- **Assistants API** — custom assistants with tools
+
+### Perplexity (50 prompts)
+- Recherche web enrichie, veille marché, fact-checking
+- Intégration JARVIS pour veille automatique
+
+### n8n AI Nodes (15 prompts)
+- Prompts pour les nodes IA dans les workflows n8n
+- Intégration avec OpenAI, Claude, Gemini
+
+---
+
+## Utilisation
+
+```bash
+# Cloner la bibliothèque
+git clone https://github.com/Turbo31150/bibliotheque-prompts-multi-ia.git
+cd bibliotheque-prompts-multi-ia
+
+# Ouvrir l'interface web
+open index.html
+# ou
+npx serve . -p 3000
+```
+
+### Via l'interface web
+
+L'interface `index.html` permet de :
+- **Filtrer** par IA, catégorie, complexité
+- **Rechercher** par mot-clé dans tous les prompts
+- **Copier** un prompt en un clic
+- **Exporter** une sélection en JSON/CSV
+- **Prévisualiser** le résultat attendu
+
+---
+
+## Format d'un prompt
+
+```json
+{
+  "id": "claude-code-scaffold-001",
+  "title": "Scaffold Python project avec uv",
+  "ia": "claude-code",
+  "category": "development",
+  "complexity": "intermediate",
+  "tags": ["python", "uv", "scaffold", "jarvis"],
+  "prompt": "...",
+  "expected_output": "...",
+  "jarvis_integration": true,
+  "tested": true,
+  "last_updated": "2026-03"
+}
+```
+
+---
+
+## Contribuer
+
+1. Fork le repo
+2. Ajouter ton prompt dans le bon dossier `prompts/<ia>/`
+3. Suivre le format JSON ci-dessus
+4. Pull Request avec le label `new-prompt`
+
+---
+
+<div align="center">
+
+**Franc Delmas (Turbo31150)** · [github.com/Turbo31150](https://github.com/Turbo31150) · Toulouse
+
+*PROMPT·VAULT — Multi-AI Prompt Library — MIT License*
+
+</div>
