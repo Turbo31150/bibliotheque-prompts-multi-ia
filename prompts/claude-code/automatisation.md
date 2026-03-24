@@ -324,3 +324,11 @@ Contraintes :
 - n8n en execution sur http://127.0.0.1:5678
 - OpenClaw gateway sur port 18789
 - Crontab configure (`crontab -e`)
+
+## Version Courte (Modèles Locaux <4B)
+
+> Pour qwen2.5:1.5b, gemma-3-4b et petits modèles
+
+```text
+[Rôle en 1 ligne]. [Tâche en 1 ligne]. Réponds en 3 lignes max. Français.
+```

@@ -29,3 +29,11 @@ FORMAT SORTIE:
 [RÉPONSE] la réponse consolidée
 [DIVERGENCES] points de désaccord entre modèles (si applicable)
 ```
+
+## Version Courte (Modèles Locaux <4B)
+
+> Pour qwen2.5:1.5b, gemma-3-4b et petits modèles
+
+```text
+[Rôle en 1 ligne]. [Tâche en 1 ligne]. Réponds en 3 lignes max. Français.
+```

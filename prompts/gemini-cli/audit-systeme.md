@@ -74,3 +74,11 @@ Propose un fix pour chaque RISK et CRITICAL.
 - Gemini CLI avec acces terminal
 - Droits sudo pour certaines commandes d'audit
 - nvidia-smi pour l'audit GPU
+
+## Version Courte (Modèles Locaux <4B)
+
+> Pour qwen2.5:1.5b, gemma-3-4b et petits modèles
+
+```text
+[Rôle en 1 ligne]. [Tâche en 1 ligne]. Réponds en 3 lignes max. Français.
+```

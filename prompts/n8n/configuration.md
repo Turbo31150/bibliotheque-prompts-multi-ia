@@ -153,3 +153,11 @@ curl -s http://127.0.0.1:5678/api/v1/executions | python3 -m json.tool
 - Port 5678 disponible
 - Credentials API pour les services externes
 - Docker (optionnel, recommande pour la production)
+
+## Version Courte (Modèles Locaux <4B)
+
+> Pour qwen2.5:1.5b, gemma-3-4b et petits modèles
+
+```text
+[Rôle en 1 ligne]. [Tâche en 1 ligne]. Réponds en 3 lignes max. Français.
+```
