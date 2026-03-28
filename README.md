@@ -282,9 +282,54 @@ Contributions are welcome. To add a new prompt:
 - Include `expected_output` when possible
 - Tag liberally for searchability
 
+
+
+## What is This Collection?
+
+A battle-tested library of **397+ prompts** optimized for multi-model AI workflows. Each prompt has been tested on Claude, GPT-4, Gemini, and Mistral to ensure consistent quality across models.
+
+Unlike generic prompt collections, these are designed for **production use** — structured outputs, error handling, and model-specific adaptations built in.
+
+## Usage Examples
+
+```python
+# Example 1: Use a prompt for code review
+prompt = load_prompt("code-review/security-audit")
+# → Returns a structured prompt that works on any model
+
+# Example 2: Multi-model consensus
+for model in ["claude", "gpt4", "gemini"]:
+    result = query(model, prompt)
+# → Compare outputs across models for reliability
+
+# Example 3: Chain prompts for complex tasks
+step1 = load_prompt("analysis/requirements")
+step2 = load_prompt("code/generate")
+step3 = load_prompt("test/validate")
+# → Pipeline: analyze → generate → test
+```
+
+## Prompt Categories
+
+| Category | Count | Use Case |
+|----------|-------|----------|
+| **Code Generation** | 45 | Python, TypeScript, SQL, Bash |
+| **Analysis** | 38 | Data, market, code review |
+| **Writing** | 52 | Technical docs, emails, proposals |
+| **System** | 31 | DevOps, monitoring, alerts |
+| **Trading** | 28 | Signals, risk, portfolio |
+| **Voice** | 22 | Commands, intents, responses |
+| **Automation** | 41 | n8n, workflows, scraping |
+| **Creative** | 35 | Storytelling, branding, design |
+| **Other** | 105 | Misc specialized prompts |
+
+## Why Multi-Model?
+
+Single-model prompts break when you switch providers. These prompts include **model-specific adaptations** — the same prompt works on Claude, GPT, Gemini, and Mistral with consistent output format.
+
 ---
 
-## License
+MIT
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
