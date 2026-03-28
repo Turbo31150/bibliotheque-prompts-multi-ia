@@ -329,6 +329,175 @@ Single-model prompts break when you switch providers. These prompts include **mo
 
 ---
 
+## Full Prompt Examples with Multi-Model Outputs
+
+Here are 3 real prompts from the library, each showing how different AI models handle the same task.
+
+### Prompt 1: Code Review — Security Audit
+
+**Prompt** (`claude-code-review-security-014`):
+```
+Review this Python function for security vulnerabilities.
+Focus on: injection, data leaks, auth bypass, resource exhaustion.
+Return findings as a JSON array with severity, line, description, and fix.
+
+def process_upload(request):
+    filename = request.POST["filename"]
+    path = f"/uploads/{filename}"
+    with open(path, "wb") as f:
+        f.write(request.FILES["file"].read())
+    run_conversion(path, filename)  # calls imagemagick
+    return {"status": "ok", "path": path}
+```
+
+**Claude Output** (claude-3.5-sonnet):
+```json
+[
+  {
+    "severity": "CRITICAL",
+    "line": 3,
+    "description": "Path traversal. filename is user-controlled. Attacker sends '../../etc/passwd' to write outside /uploads/",
+    "fix": "Use os.path.basename(filename) and validate against allowlist of extensions"
+  },
+  {
+    "severity": "CRITICAL",
+    "line": 5,
+    "description": "run_conversion passes user input to shell command — potential command injection",
+    "fix": "Use subprocess.run with shell=False and pass arguments as a list"
+  },
+  {
+    "severity": "HIGH",
+    "line": 4,
+    "description": "No file size limit — attacker can exhaust disk with large upload",
+    "fix": "Check request.FILES['file'].size against MAX_UPLOAD_SIZE before writing"
+  },
+  {
+    "severity": "MEDIUM",
+    "line": 6,
+    "description": "Internal path exposed in response — leaks server directory structure",
+    "fix": "Return a public URL or file ID instead of the filesystem path"
+  }
+]
+```
+
+**GPT-4o Output**:
+```json
+[
+  {
+    "severity": "critical",
+    "line": 3,
+    "description": "Directory traversal vulnerability. User-supplied filename can escape the uploads directory.",
+    "fix": "Sanitize filename with werkzeug.utils.secure_filename() or equivalent."
+  },
+  {
+    "severity": "critical",
+    "line": 5,
+    "description": "Shell injection via run_conversion(). Malicious filename could execute arbitrary commands.",
+    "fix": "Replace with subprocess.run() and pass arguments as a list."
+  },
+  {
+    "severity": "high",
+    "line": 4,
+    "description": "Unrestricted file upload. No validation of file type, size, or content.",
+    "fix": "Validate MIME type, enforce max size, scan content before saving."
+  }
+]
+```
+
+> **Comparison**: Claude found 4 issues including the subtle path leak in the response. GPT-4o found 3 and added MIME validation. Using both gives the most complete audit.
+
+---
+
+### Prompt 2: Data Analysis — Structured Output
+
+**Prompt** (`gemini-analysis-structured-008`):
+```
+Analyze this sales data and return a structured JSON report with:
+1. Total revenue
+2. Top 3 products by revenue
+3. Month-over-month growth rate
+4. One actionable recommendation
+
+Data:
+| Month   | Product       | Units | Price  |
+|---------|---------------|-------|--------|
+| Jan     | AI Toolkit    | 142   | 49 EUR |
+| Jan     | GPU Monitor   | 89    | 29 EUR |
+| Jan     | Voice Pack    | 214   | 19 EUR |
+| Feb     | AI Toolkit    | 178   | 49 EUR |
+| Feb     | GPU Monitor   | 95    | 29 EUR |
+| Feb     | Voice Pack    | 267   | 19 EUR |
+| Mar     | AI Toolkit    | 203   | 49 EUR |
+| Mar     | GPU Monitor   | 112   | 29 EUR |
+| Mar     | Voice Pack    | 301   | 19 EUR |
+```
+
+**Gemini Output** (gemini-2.0-flash):
+```json
+{
+  "total_revenue": 39482,
+  "currency": "EUR",
+  "period": "Q1 2026",
+  "top_products": [
+    {"name": "AI Toolkit", "revenue": 25627, "share": "64.9%"},
+    {"name": "Voice Pack", "revenue": 14858, "share": "37.6%"},
+    {"name": "GPU Monitor", "revenue": 8584, "share": "21.7%"}
+  ],
+  "month_over_month": {
+    "jan_to_feb": "+12.4%",
+    "feb_to_mar": "+11.8%"
+  },
+  "recommendation": "AI Toolkit drives 65% of revenue with consistent double-digit growth. Bundle it with Voice Pack at a 15% discount to increase average order value — projected +22% revenue uplift based on current attach rate."
+}
+```
+
+> **Note**: This prompt is tagged `structured-output` in the library. The JSON schema is enforced — if the model deviates, the validation script flags it.
+
+---
+
+### Prompt 3: Professional Email Drafting
+
+**Prompt** (`claude-writing-email-021`):
+```
+Draft a follow-up email to a potential client who showed interest in our AI automation service
+but hasn't responded in 5 days. Context:
+- Client: Guillaume Chupin, CTO at DataFlow SAS
+- Service: Custom AI pipeline for invoice processing (budget ~5,000 EUR)
+- Last interaction: Demo call on March 22, he said "looks promising, let me discuss with the team"
+- Tone: Professional but warm, no pressure
+
+Language: French
+Max length: 150 words
+```
+
+**Claude Output** (claude-3.5-sonnet):
+```
+Objet : Suite a notre demo — Pipeline IA facturation
+
+Bonjour Guillaume,
+
+J'espere que votre semaine se passe bien.
+
+Suite a notre demonstration du 22 mars, je voulais simplement prendre
+des nouvelles. Vous aviez mentionne vouloir echanger avec votre equipe
+sur le pipeline de traitement automatise des factures.
+
+Si des questions ont emerge lors de vos discussions internes, je serais
+ravi d'y repondre — que ce soit sur l'integration technique, les delais,
+ou l'adaptation a votre volume de documents.
+
+Je reste disponible pour un appel rapide de 15 minutes cette semaine
+si cela vous convient.
+
+Bonne continuation,
+Franck Delmas
+AI Systems Architect
+```
+
+> **Result**: This exact template was used in a real prospection sequence. Guillaume responded within 2 hours, leading to a 5,000 EUR project negotiation.
+
+---
+
 MIT
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
