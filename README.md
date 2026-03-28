@@ -23,6 +23,23 @@
 
 ---
 
+
+
+## How It Works
+
+```mermaid
+graph LR
+    User[User Need] --> Select[Select Prompt]
+    Select --> Adapt[Adapt for Model]
+    Adapt --> Claude[Claude]
+    Adapt --> GPT[GPT-4]
+    Adapt --> Gemini[Gemini]
+    Adapt --> Mistral[Mistral]
+    Claude & GPT & Gemini & Mistral --> Compare[Compare Results]
+    Compare --> Best[Best Output]
+```
+
+
 ## Why PROMPT VAULT?
 
 Prompt engineering is fragmented: what works on Claude fails on GPT, Gemini needs different structures, and n8n AI nodes have their own constraints. **PROMPT VAULT** solves this by providing a **centralized, categorized, and AI-specific prompt library** where every prompt is:
