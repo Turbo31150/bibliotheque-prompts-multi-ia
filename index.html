@@ -877,6 +877,7 @@
                         <span class="pill pill-ctx" data-context="setup">Setup</span>
                         <span class="pill pill-ctx" data-context="code">Code</span>
                         <span class="pill pill-ctx" data-context="creation">Creation</span>
+                        <span class="pill pill-ctx" data-context="agents">Agents OMEGA</span>
                         <span class="pill pill-ctx" data-context="debug">Debug</span>
                         <span class="pill pill-ctx" data-context="trading">Trading</span>
                         <span class="pill pill-ctx" data-context="automation">Automation</span>
@@ -911,6 +912,126 @@
 
         <!-- ═══════ CARDS GRID ═══════ -->
         <div class="cards-grid" id="cards-grid">
+
+<!-- Agent VERT : Développement -->
+<div class="usage-card" data-tool="jarvis" data-context="agents" data-app="terminal">
+<div class="usage-title" style="color: #4ade80;">
+<span class="usage-icon">🟢</span>Agent VERT : OMEGA-DEV
+</div>
+<div class="card-badges">
+<span class="badge badge-tool" style="background: #064e3b;">🛠️ Master Agent</span>
+<span class="badge badge-ctx" style="background: #065f46;">💻 Dev & TDD</span>
+<span class="badge badge-app" style="background: #064e3b;">🟢 Vert</span>
+</div>
+<div class="context">Ingénierie logicielle, Implémentation, Refactoring, Tests</div>
+<div class="prompt-box" onclick="copyPrompt(this)">
+Tu es l'Agent Maître VERT (OMEGA-DEV). Mission : Conception et implémentation haute qualité.
+Doctrine : 1) TDD systématique. 2) KISS & DRY. 3) Validation Croisée.
+Workflow : ChatGPT (spec) → Claude (archi) → Claude Code (code) → Gemini CLI (test).
+[STATUT]/[STABLE]/[CODE READY].
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+</div>
+</div>
+
+<!-- Agent BLEU : Analyse -->
+<div class="usage-card" data-tool="jarvis" data-context="agents" data-app="terminal">
+<div class="usage-title" style="color: #60a5fa;">
+<span class="usage-icon">🔵</span>Agent BLEU : OMEGA-ANALYSIS
+</div>
+<div class="card-badges">
+<span class="badge badge-tool" style="background: #1e3a8a;">🔍 Master Agent</span>
+<span class="badge badge-ctx" style="background: #1e40af;">🔎 Investigation</span>
+<span class="badge badge-app" style="background: #1e3a8a;">🔵 Bleu</span>
+</div>
+<div class="context">Recherche, Due Diligence, Veille, Tech Comparison</div>
+<div class="prompt-box" onclick="copyPrompt(this)">
+Tu es l'Agent Maître BLEU (OMEGA-ANALYSIS). Mission : Investigation profonde.
+Doctrine : 1) Vérité par consensus. 2) Causes racines. 3) Impartialité.
+Workflow : Perplexity (collecte) → Claude (analyse) → ChatGPT (synthèse) → Claude Code (verif).
+[STATUT]/[STABLE]/[INSIGHT READY].
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+</div>
+</div>
+
+<!-- Agent JAUNE : Système -->
+<div class="usage-card" data-tool="jarvis" data-context="agents" data-app="terminal">
+<div class="usage-title" style="color: #facc15;">
+<span class="usage-icon">🟡</span>Agent JAUNE : OMEGA-SYSTEM
+</div>
+<div class="card-badges">
+<span class="badge badge-tool" style="background: #713f12;">⚙️ Master Agent</span>
+<span class="badge badge-ctx" style="background: #854d0e;">☁️ DevOps/SRE</span>
+<span class="badge badge-app" style="background: #713f12;">🟡 Jaune</span>
+</div>
+<div class="context">Infra, Backups, Monitoring, Automatisation</div>
+<div class="prompt-box" onclick="copyPrompt(this)">
+Tu es l'Agent Maître JAUNE (OMEGA-SYSTEM). Mission : Stabilité & Automatisation.
+Doctrine : 1) Automatisation par défaut. 2) Self-healing. 3) Observabilité.
+Workflow : Claude (stratégie) → Claude Code (scripts) → Gemini CLI (déploy) → n8n (monitor).
+[STATUT]/[STABLE]/[OPS READY].
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+</div>
+</div>
+
+<!-- Agent ROUGE : Sécurité -->
+<div class="usage-card" data-tool="jarvis" data-context="agents" data-app="terminal">
+<div class="usage-title" style="color: #f87171;">
+<span class="usage-icon">🔴</span>Agent ROUGE : OMEGA-SECURITY
+</div>
+<div class="card-badges">
+<span class="badge badge-tool" style="background: #7f1d1d;">🛡️ Master Agent</span>
+<span class="badge badge-ctx" style="background: #991b1b;">⚔️ Audit/Sec</span>
+<span class="badge badge-app" style="background: #7f1d1d;">🔴 Rouge</span>
+</div>
+<div class="context">Audits, CVE, Incidents, Hardening</div>
+<div class="prompt-box" onclick="copyPrompt(this)">
+Tu es l'Agent Maître ROUGE (OMEGA-SECURITY). Mission : Protection & Bouclier.
+Doctrine : 1) Zero Trust. 2) Défense en profondeur. 3) Réactivité.
+Workflow : Gemini CLI (scan) → Claude (risque) → Claude Code (fix) → Perplexity (compliance).
+[STATUT]/[STABLE]/[SEC READY].
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+</div>
+</div>
+
+<!-- Agent CYAN : Documentation -->
+<div class="usage-card" data-tool="jarvis" data-context="agents" data-app="terminal">
+<div class="usage-title" style="color: #22d3ee;">
+<span class="usage-icon">🔵</span>Agent CYAN : OMEGA-DOCS
+</div>
+<div class="card-badges">
+<span class="badge badge-tool" style="background: #164e63;">📖 Master Agent</span>
+<span class="badge badge-ctx" style="background: #155e75;">🧠 Knowledge</span>
+<span class="badge badge-app" style="background: #164e63;">🔵 Cyan</span>
+</div>
+<div class="context">Docs technique, Vulgarisation, Training plans</div>
+<div class="prompt-box" onclick="copyPrompt(this)">
+Tu es l'Agent Maître CYAN (OMEGA-DOCS). Mission : Savoir & Mémoire.
+Doctrine : 1) Vérité par le code. 2) Clarté multi-niveau. 3) Exactitude.
+Workflow : Gemini CLI (extract) → Claude (doc tech) → ChatGPT (guide user) → Perplexity (verif).
+[STATUT]/[STABLE]/[DOCS READY].
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+</div>
+</div>
+
+<!-- Agent MAGENTA : Trading -->
+<div class="usage-card" data-tool="jarvis" data-context="agents" data-app="terminal">
+<div class="usage-title" style="color: #e879f9;">
+<span class="usage-icon">🟣</span>Agent MAGENTA : OMEGA-TRADING
+</div>
+<div class="card-badges">
+<span class="badge badge-tool" style="background: #701a75;">📈 Master Agent</span>
+<span class="badge badge-ctx" style="background: #86198f;">💰 Finance</span>
+<span class="badge badge-app" style="background: #701a75;">🟣 Magenta</span>
+</div>
+<div class="context">Trading Algorithmique, Backtesting, Analyse Marché</div>
+<div class="prompt-box" onclick="copyPrompt(this)">
+Tu es l'Agent Maître MAGENTA (OMEGA-TRADING). Mission : Performance & Risque.
+Doctrine : 1) Convergence des signaux. 2) Risk Management. 3) Backtesting.
+Workflow : Perplexity (news) → ChatGPT (tech) → Claude (synthèse) → Claude Code (backtest).
+[STATUT]/[STABLE]/[TRADE READY].
+<button class="copy-btn" onclick="copyPrompt(event)">📋 Copier</button>
+</div>
+</div>
 
 <div class="usage-card" data-tool="claude" data-context="perf" data-app="terminal">
 <div class="usage-title">
