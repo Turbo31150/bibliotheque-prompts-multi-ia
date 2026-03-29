@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>JARVIS OS — Complete Skills Registry</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e17;color:#e0e6f0;min-height:100vh}
+.header{background:linear-gradient(135deg,#0f1923,#1a2744);padding:24px 32px;border-bottom:2px solid #2563eb}
+.header h1{font-size:26px;background:linear-gradient(90deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .sub{color:#64748b;font-size:13px;margin-top:4px}
+.stats{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.stat{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:8px 14px;text-align:center}
+.stat .num{font-size:22px;font-weight:700;color:#60a5fa}
+.stat .label{font-size:10px;color:#94a3b8;text-transform:uppercase}
+.tabs{display:flex;gap:2px;padding:0 32px;background:#0f1923;border-bottom:1px solid #1e293b;overflow-x:auto}
+.tab{padding:10px 16px;cursor:pointer;color:#94a3b8;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap;font-size:13px}
+.tab:hover,.tab.active{color:#60a5fa;border-bottom-color:#2563eb;background:#1a2744}
+.content{padding:24px 32px;max-width:1400px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:20px}
+.card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;transition:.2s}
+.card:hover{border-color:#2563eb;transform:translateY(-1px)}
+.card .name{font-size:14px;font-weight:600;color:#f1f5f9}
+.card .desc{font-size:11px;color:#94a3b8;margin-top:5px;line-height:1.4}
+.badge{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;display:inline-block;margin-right:5px}
+.claude{background:#7c3aed22;color:#a78bfa;border:1px solid #7c3aed44}
+.gemini{background:#059669aa;color:#6ee7b7;border:1px solid #05966944}
+.browseros{background:#ea580c22;color:#fb923c;border:1px solid #ea580c44}
+.mcp{background:#0891b222;color:#22d3ee;border:1px solid #0891b244}
+.agent{background:#dc262622;color:#f87171;border:1px solid #dc262644}
+.local{background:#ca8a0422;color:#fbbf24;border:1px solid #ca8a0444}
+.section{font-size:16px;font-weight:600;margin:20px 0 10px;color:#cbd5e1;border-left:4px solid #2563eb;padding-left:12px}
+.hidden{display:none!important}
+.search{width:100%;padding:10px 16px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e0e6f0;font-size:14px;margin-bottom:16px;outline:none}
+.search:focus{border-color:#2563eb}
+table{width:100%;border-collapse:collapse;margin-bottom:20px}
+th{background:#1e293b;color:#94a3b8;padding:8px 12px;text-align:left;font-size:11px;text-transform:uppercase;border-bottom:1px solid #334155}
+td{padding:8px 12px;border-bottom:1px solid #1e293b;font-size:12px;color:#cbd5e1}
+tr:hover{background:#1e293b44}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>JARVIS OS — Complete Skills Registry</h1>
+<div class="sub">Claude Code + Gemini CLI + BrowserOS + 22 Agents + 60+ MCP Tools + 15 Domino Chains</div>
+<div class="stats">
+<div class="stat"><div class="num">39</div><div class="label">Claude Code</div></div>
+<div class="stat"><div class="num">12</div><div class="label">Gemini CLI</div></div>
+<div class="stat"><div class="num">22</div><div class="label">Agents</div></div>
+<div class="stat"><div class="num">60+</div><div class="label">MCP Tools</div></div>
+<div class="stat"><div class="num">15</div><div class="label">Chains</div></div>
+<div class="stat"><div class="num">47</div><div class="label">Traces</div></div>
+<div class="stat"><div class="num">877</div><div class="label">Benchmarks</div></div>
+</div>
+</div>
+<div class="tabs">
+<div class="tab active" data-tab="cc">Claude Code (39)</div>
+<div class="tab" data-tab="gem">Gemini CLI (12)</div>
+<div class="tab" data-tab="agents">Agents (22)</div>
+<div class="tab" data-tab="mcp">MCP Tools (60+)</div>
+<div class="tab" data-tab="chains">Domino Chains (15)</div>
+<div class="tab" data-tab="plugins">Plugins (13)</div>
+</div>
+<div class="content" id="root"></div>
+<script>
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e}
+function mkCard(n,p,d){const c=el("div","card");const nm=el("div","name");const b=el("span","badge "+p,p);nm.appendChild(b);nm.appendChild(document.createTextNode(n));c.appendChild(nm);c.appendChild(el("div","desc",d));c.dataset.search=(n+" "+d).toLowerCase();return c}
+const root=document.getElementById("root");
+const tabs={};
+
+// === CLAUDE CODE TAB ===
+const ccTab=el("div");ccTab.id="tab-cc";
+const ccSearch=el("input","search");ccSearch.placeholder="Rechercher un skill Claude Code...";ccSearch.oninput=function(){const q=this.value.toLowerCase();ccTab.querySelectorAll(".card").forEach(c=>c.classList.toggle("hidden",!c.dataset.search.includes(q)))};
+ccTab.appendChild(ccSearch);
+const ccData={
+"Systeme & Hardware":[["system-crash-guardian","claude","Crash loops, zombies, GUI freeze, containerization policy enforcement"],["system-stabilization-mode","claude","Emergency <60s triage: CPU hogs, crash loops, zombies, RAM pressure"],["boot-sequencer","claude","8-wave ordered startup: Redis > Ollama > Monitor > AI > n8n > Chrome > Social > Voice"],["rescue-mode-switcher","claude","TTY3 (Ctrl+Alt+F3) / GUI (Ctrl+Alt+F1) switch with diagnostic capture"],["gpu-crash-recovery","claude","4-level: soft reset > PCIe reset > module reload > REBOOT. Chains: gpu_error, gpu_thermal"],["ram-pressure-handler","claude","4-level: drop cache > identify consumer > stop nonessential > OOM protect"],["zombie-cleanup","claude","Detect >10 zombies, SIGCHLD to parent, orphan handling, LM Studio restart"],["auto-scaler","claude","Horizontal: idle GPU > cluster M2/M3 > web API > queue. VRAM >85% trigger"],["timeshift-backup","claude","Pre-incident snapshot, post-update, rotation check, disaster recovery, weekly integrity"]],
+"Reseau & Infrastructure":[["network-degradation","claude","Downshift 1Gbps>100Mbps, Link Down, cluster node offline, UFW blocks"],["container-module-architecture","claude","10 modules conteneur independants: orchestration, cowork, social, queue, trading..."],["security-review","claude","UFW audit, ports, Redis binding, auth, non-root, CPU/Memory quotas, GPU persistenced"],["service-auto-repair","claude","Systemd failures: port conflict, missing module, permission denied, OOM killed"],["production-monitor","claude","Health check all services, nvidia-smi, redis-cli, 30s observation, SLA thresholds"]],
+"Routage & Orchestration":[["jarvis-flow-controller","claude","MASTER DIRECTIVE: backpressure L1/L2/L3, routage par type, consensus multi-IA"],["skill-advisor","claude","Route skills vers Claude/Gemini/BrowserOS optimal platform"],["task-distributor","claude","Decompose > Classify (CPU/GPU/IO/Mixed) > Route > Assemble"],["jarvis-orchestrator","gemini","Redis bus connect, OpenClaw skill registration, domino chain sync"],["openclaw-router","gemini","WebSocket ws://127.0.0.1:18789, skill registration, agent dispatch, health"],["task-queue-planner","gemini","Redis queue, 4 priority levels (critical/high/normal/low), dependency resolution"],["validation-consensus","gemini","Multi-LLM consensus: M1:1.9 OL1:1.4 M2:1.5 M3:1.1 GEMINI:1.5 CLAUDE:1.2"]],
+"Browser & Social":[["browseros-operator","browseros","Navigate, click, fill, screenshot via BrowserOS MCP. CDP port 9222"],["browser-session-curator","gemini","CDP 9222, session save/restore, tab organization, cookie management"],["linkedin-operator","browseros","Publication CDP+xdotool+xclip, emoji hook, 4-5 arrows, 5 hashtags, timer systemd"],["codeur-operator","browseros","Codeur.com: browse projets >500EUR, send proposals, track responses SQLite"],["telegram-ops","browseros","Bot alerts: CRITIQUE/WARNING/INFO/DEBUG, sendMessage/sendDocument/sendPhoto"],["voice-first-operator","claude","TTS Piper siwis-medium (plughw:6,0) + STT faster-whisper CUDA medium"]],
+"IA, LLM & DevOps":[["prompt-alimentation","gemini","Prompt generation/optimization, /nothink M1, /no_think OL1, template library"],["retrieval-web","gemini","Web fetch, structured extraction, doc lookup, error search"],["codex-cli-builder","gemini","Generate bash/python CLI tools, test, deploy to ~/.local/bin"],["github-reader","gemini","gh CLI: issues, PRs, releases, changelog, code search FranckMusic/jarvis-linux"],["project-architect","gemini","ADR format, module design, interface contracts, 4-phase implementation"],["pipeline-builder","claude","Create .chain domino files, atomic idempotent rejouable actions"]],
+"Amelioration & Donnees":[["production-improver","claude","Benchmark analysis, timeout adjust, step reorder, platform swap, YAML patch"],["incident-learner","claude","Extract lessons, create reusable domino chains, optimize after 3+ similar incidents"],["auto-debug","gemini","Stack trace analysis: ImportError/ConnectionRefused/PermissionDenied/CUDA OOM"],["auto-learn","gemini","Knowledge capture SQLite, skill profiles, learning velocity, confidence trend"],["sql-memory-reader","claude","Read domino_benchmarks.db: chain_runs, step_runs, chain_stats tables"],["file-log-reader","gemini","journalctl, dmesg, /var/log, repair-reports, server-logs parsing"]]
+};
+Object.entries(ccData).forEach(([title,skills])=>{ccTab.appendChild(el("div","section",title));const g=el("div","grid");skills.forEach(([n,p,d])=>g.appendChild(mkCard(n,p,d)));ccTab.appendChild(g)});
+tabs.cc=ccTab;
+
+// === GEMINI CLI TAB ===
+const gemTab=el("div");gemTab.id="tab-gem";
+gemTab.appendChild(el("div","section","Gemini CLI Plugin Skills (jarvis-turbo)"));
+const gemGrid=el("div","grid");
+[["autotest-analysis","gemini","Analyse pass/fail patterns des autotests cluster, identifie regressions"],
+["browser-workflow","gemini","BrowserOS workflow configurable, multi-AI routing pour taches web"],
+["cluster-management","gemini","Load/unload models, GPU thermal, reconfig nodes M1/M2/M3/OL1"],
+["continuous-improvement","gemini","Boucles amelioration continue: test > analyze > fix > validate"],
+["demarrage","gemini","Demarrage complet JARVIS: charge skills, detection mots-cles, activation"],
+["failover-recovery","gemini","Node offline > automatic failover, service crash > restart chain"],
+["mao-workflow","gemini","Multi-Agent Operations: consensus queries, distributed code reviews"],
+["performance-tuning","gemini","Reduce latency, improve throughput, tune model params, GPU optimization"],
+["security-audit","gemini","Exposed credentials, insecure ports, container escapes, permission audit"],
+["smart-routing","gemini","Task routing based on autotest benchmarks, maps tasks to best node"],
+["trading-pipeline","gemini","Trading pipeline: MEXC Futures scan, signals, execution, tracking"],
+["weighted-orchestration","gemini","Multi-agent weighted routing: 5 strategies, consensus aggregation"]
+].forEach(([n,p,d])=>gemGrid.appendChild(mkCard(n,p,d)));
+gemTab.appendChild(gemGrid);
+gemTab.appendChild(el("div","section","Gemini CLI Auto-Trigger Map"));
+const gemTable=document.createElement("table");
+const gemHead=document.createElement("thead");
+const hr=document.createElement("tr");
+["Situation","Skill Gemini","Trigger"].forEach(t=>{const th=document.createElement("th");th.textContent=t;hr.appendChild(th)});
+gemHead.appendChild(hr);gemTable.appendChild(gemHead);
+const gemBody=document.createElement("tbody");
+[["Systeme instable","auto-debug, failover-recovery","Erreur logs, service down"],
+["Cluster/Distribution","cluster-management, smart-routing, weighted-orchestration","Node offline, queue >10"],
+["Web/Navigateur","browseros-operator, browser-session-curator","Tache web BrowserOS"],
+["Code/Dev","codeur-operator, codex-cli-builder, github-reader","Tache codage, CLI build"],
+["Production","production-monitor, production-improver, performance-tuning","Surveillance, optimisation"],
+["Donnees/Memoire","sql-memory-reader, file-log-reader, prompt-alimentation","Lecture SQLite, logs"],
+["Communication","telegram-ops, voice-first-operator","Notification, commande vocale"],
+["Trading","trading-pipeline","Signal trading detecte"],
+["Apprentissage","auto-learn, autotest-analysis","Pattern recurrent, tests"]
+].forEach(([s,sk,t])=>{const tr=document.createElement("tr");[s,sk,t].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.appendChild(td)});gemBody.appendChild(tr)});
+gemTable.appendChild(gemBody);gemTab.appendChild(gemTable);
+tabs.gem=gemTab;
+
+// === AGENTS TAB ===
+const agTab=el("div");agTab.id="tab-agents";
+agTab.appendChild(el("div","section","Agents Claude Code (8)"));
+const agGrid1=el("div","grid");
+[["incident-responder","agent","Diagnostic auto, selection domino chain, execution repair, rapport. Auto-triggered by crashes"],
+["architect-guardian","agent","Valide changements structurels, drift detection, audit periodique, pre-mutation validation"],
+["domino-optimizer","agent","Analyse benchmarks, identifie chaines lentes >5000ms, propose optimisations, re-benchmark"],
+["ia-flow","agent","Monitore flux I/O vs CPU-bound, backpressure policies, separation taches asyncio/ProcessPool"],
+["jarvis-system-agent","agent","Health check cluster M1/M2/Server, waves, VRAM/ZRAM/PBO, EasySpeak, MCP calls"],
+["security-reviewer","agent","Audit OWASP top 10, secrets in code, injection risks, exposed ports. Auto on security dirs"],
+["system-health-monitor","agent","CPU, RAM, GPU, services, containers, zombies, network. Structured health report"],
+["task-decomposer-prime","agent","Decompose multi-domain requests: code+security+deployment+research into orchestrated steps"]
+].forEach(([n,p,d])=>agGrid1.appendChild(mkCard(n,p,d)));
+agTab.appendChild(agGrid1);
+agTab.appendChild(el("div","section","Agents Plugin jarvis-turbo (14)"));
+const agGrid2=el("div","grid");
+[["jarvis-auditor","agent","Codebase audit, security scan, coverage analysis"],
+["jarvis-auto-improver","agent","Continuous improvement and optimization loops"],
+["jarvis-auto-scaler","agent","GPU and cluster scaling management"],
+["jarvis-backpressure","agent","Load management and backpressure control"],
+["jarvis-browser","agent","Browser automation and web interaction"],
+["jarvis-cluster-health","agent","M1/M2/M3/OL1 health monitoring"],
+["jarvis-code-reviewer","agent","Code review and quality assessment"],
+["jarvis-devops","agent","System optimization, kernel tuning, ZRAM, PBO, systemd, Docker"],
+["jarvis-flow-dispatcher","agent","Task routing and flow control"],
+["jarvis-gpu-manager","agent","6x NVIDIA GPU management, VRAM optimization, model loading"],
+["jarvis-multi-platform-router","agent","Multi-platform task distribution (local, cluster, web, API)"],
+["jarvis-quality-gate","agent","Quality validation and gating"],
+["jarvis-task-balancer","agent","Load balancing across resources"],
+["jarvis-voice-controller","agent","Voice command interface, STT/TTS pipeline"]
+].forEach(([n,p,d])=>agGrid2.appendChild(mkCard(n,p,d)));
+agTab.appendChild(agGrid2);
+tabs.agents=agTab;
+
+// === MCP TOOLS TAB ===
+const mcpTab=el("div");mcpTab.id="tab-mcp";
+mcpTab.appendChild(el("div","section","BrowserOS MCP (40+ tools)"));
+const mcpTable1=document.createElement("table");
+const mh1=document.createElement("thead");const mr1=document.createElement("tr");
+["Outil","Description"].forEach(t=>{const th=document.createElement("th");th.textContent=t;mr1.appendChild(th)});
+mh1.appendChild(mr1);mcpTable1.appendChild(mh1);
+const mb1=document.createElement("tbody");
+[["take_snapshot","Capture DOM avec IDs elements pour interaction"],
+["click / click_at","Clic sur element par ID ou coordonnees"],
+["fill","Remplir champs formulaire"],
+["navigate_page","Navigation URL, back, forward, reload"],
+["new_page / close_page","Creer/fermer onglets"],
+["evaluate_script","Executer JavaScript dans la page"],
+["get_dom / search_dom","Lire/chercher dans le DOM"],
+["get_page_content / get_page_links","Extraire contenu texte et liens"],
+["save_screenshot / save_pdf","Capturer screenshot PNG ou PDF"],
+["scroll / hover / drag","Interactions souris avancees"],
+["select_option / check / uncheck","Interactions formulaire"],
+["press_key / focus","Clavier et focus"],
+["upload_file / download_file","Transfert fichiers"],
+["handle_dialog","Gerer alertes/confirms/prompts"],
+["group_tabs / list_tab_groups","Organisation onglets"],
+["get_bookmarks / create_bookmark","Gestion signets"],
+["search_history / get_recent_history","Historique navigation"],
+["list_windows / create_window","Gestion fenetres"],
+["suggest_app_connection","Connecter apps externes (Gmail, Slack, GitHub...)"]
+].forEach(([t,d])=>{const tr=document.createElement("tr");const td1=document.createElement("td");td1.textContent=t;td1.style.fontWeight="600";td1.style.color="#22d3ee";const td2=document.createElement("td");td2.textContent=d;tr.appendChild(td1);tr.appendChild(td2);mb1.appendChild(tr)});
+mcpTable1.appendChild(mb1);mcpTab.appendChild(mcpTable1);
+
+mcpTab.appendChild(el("div","section","Claude-in-Chrome MCP (15 tools)"));
+const mcpTable2=document.createElement("table");
+const mh2=document.createElement("thead");const mr2=document.createElement("tr");
+["Outil","Description"].forEach(t=>{const th=document.createElement("th");th.textContent=t;mr2.appendChild(th)});
+mh2.appendChild(mr2);mcpTable2.appendChild(mh2);
+const mb2=document.createElement("tbody");
+[["read_page","Lire le contenu structure de la page active"],
+["get_page_text","Extraire tout le texte de la page"],
+["navigate","Naviguer vers une URL"],
+["find","Chercher du texte dans la page"],
+["form_input","Remplir des champs de formulaire"],
+["computer","Actions souris/clavier de bas niveau"],
+["javascript_tool","Executer du JavaScript arbitraire"],
+["read_console_messages","Lire les messages console (filtrage regex)"],
+["read_network_requests","Lire les requetes reseau"],
+["gif_creator","Enregistrer des interactions en GIF"],
+["resize_window","Redimensionner la fenetre Chrome"],
+["tabs_context_mcp","Obtenir le contexte de tous les onglets"],
+["tabs_create_mcp","Creer un nouvel onglet"],
+["upload_image","Uploader une image"],
+["shortcuts_list / shortcuts_execute","Lister/executer raccourcis clavier"]
+].forEach(([t,d])=>{const tr=document.createElement("tr");const td1=document.createElement("td");td1.textContent=t;td1.style.fontWeight="600";td1.style.color="#a78bfa";const td2=document.createElement("td");td2.textContent=d;tr.appendChild(td1);tr.appendChild(td2);mb2.appendChild(tr)});
+mcpTable2.appendChild(mb2);mcpTab.appendChild(mcpTable2);
+
+mcpTab.appendChild(el("div","section","Connected Apps (Strata integrations)"));
+const mcpTable3=document.createElement("table");
+const mh3=document.createElement("thead");const mr3=document.createElement("tr");
+["Service","Type"].forEach(t=>{const th=document.createElement("th");th.textContent=t;mr3.appendChild(th)});
+mh3.appendChild(mr3);mcpTable3.appendChild(mh3);
+const mb3=document.createElement("tbody");
+[["Gmail, Google Calendar, Google Docs, Google Sheets, Google Drive","Google Suite"],
+["Slack, Microsoft Teams, Discord, WhatsApp","Messaging"],
+["GitHub, GitLab, Linear, Jira, ClickUp, Asana, Monday","Dev & PM"],
+["Notion, Confluence, Airtable","Knowledge"],
+["Figma, Canva","Design"],
+["Salesforce, HubSpot, Zendesk, Intercom","CRM"],
+["Stripe, Shopify","Commerce"],
+["Vercel, Cloudflare, Supabase","Infrastructure"],
+["LinkedIn, YouTube","Social"],
+["Brave Search, Exa, Mem0","Search & Memory"],
+["Canva (Claude AI), Notion (Claude AI), Google Calendar (Claude AI)","Claude AI Native"]
+].forEach(([s,t])=>{const tr=document.createElement("tr");const td1=document.createElement("td");td1.textContent=s;const td2=document.createElement("td");td2.textContent=t;td2.style.color="#64748b";tr.appendChild(td1);tr.appendChild(td2);mb3.appendChild(tr)});
+mcpTable3.appendChild(mb3);mcpTab.appendChild(mcpTable3);
+tabs.mcp=mcpTab;
+
+// === CHAINS TAB ===
+const chTab=el("div");chTab.id="tab-chains";
+chTab.appendChild(el("div","section","Domino Chains par priorite"));
+const chGrid=el("div","grid");
+[["service-crash-recovery","P10","crash > systemd","Backup > analyze > repair > verify > notify"],
+["gpu-error-cascade","P10","error > dmesg NVRM/Xid","Backup > GPU reset > stabilize > monitor"],
+["disaster-recovery","P10","boot_failed / multi_service","Triage > repair gradue > propose Timeshift restore"],
+["full-boot-sequence","P10","systemd-boot / manual","8 waves > health > orchestrator > TTS announce"],
+["ram-pressure-cascade","P10","RAM >85%","Check > drop caches > kill zombies > stop nonessential"],
+["pre-incident-backup","P9","crash critical","Check disk > Timeshift snapshot > proceed repair"],
+["network-degradation-cascade","P8","network error","Detect > force reneg > reload interface > fallback"],
+["post-update-backup","P6","apt upgrade / driver","Verify health > snapshot > verify > log"],
+["code-error-debug","P5","code error","Capture > analyze > fix > validate > learn"],
+["browser-session-repair","P5","chrome crash","Detect > restore session > verify CDP"],
+["backup-integrity-verify","P4","cron dimanche 5h","List > check age > verify files > emergency if needed"],
+["benchmark-self-improve","P4","cron 3h / rate <70%","Read benchmarks > analyze > improve > learn"],
+["content-pipeline","P4","cron daily","Generate > format > LinkedIn publish > track"],
+["freelance-pipeline","P4","cron weekday 10h","Scan Codeur.com > filter > proposal > track"],
+["backup-rotation-check","P3","cron 4h / disk >85%","List > retention > cleanup > verify"]
+].forEach(([n,p,t,d])=>{const c=el("div","card");const nm=el("div","name");const b=el("span","badge "+(p==="P10"?"agent":p==="P9"?"browseros":p<="P6"?"gemini":"claude"),p);nm.appendChild(b);nm.appendChild(document.createTextNode(n));c.appendChild(nm);c.appendChild(el("div","desc","Trigger: "+t));c.appendChild(el("div","desc",d));chGrid.appendChild(c)});
+chTab.appendChild(chGrid);
+tabs.chains=chTab;
+
+// === PLUGINS TAB ===
+const plTab=el("div");plTab.id="tab-plugins";
+plTab.appendChild(el("div","section","Plugins Locaux"));
+const plGrid1=el("div","grid");
+[["jarvis-turbo","local","14 agents + 12 skills + 26 commands. Cluster M1/M2/M3, GPU, trading, voice"],
+["jarvis-valises","local","10 valises browser: screenshot-audit, form-fill, deploy-verify, gmail-digest"]
+].forEach(([n,p,d])=>plGrid1.appendChild(mkCard(n,p,d)));
+plTab.appendChild(plGrid1);
+plTab.appendChild(el("div","section","Plugins Officiels"));
+const plGrid2=el("div","grid");
+[["superpowers","claude","14 skills: brainstorming, TDD, debugging, plans, code review, worktrees"],
+["plugin-dev","claude","7 skills: skill/agent/hook/command/MCP/plugin structure development"],
+["chrome-devtools-mcp","mcp","4 skills: debugging, a11y audit, LCP optimization, troubleshooting"],
+["hookify","claude","4 skills: create/configure/list rules, conversation analysis"],
+["commit-commands","claude","3 commands: commit, commit-push-pr, clean_gone branches"],
+["frontend-design","claude","Production-grade UI design, anti-generic AI aesthetics"],
+["pinecone","mcp","7 skills: assistant, query, docs, CLI, MCP tools, quickstart"],
+["mcp-server-dev","mcp","3 skills: build MCP server, build MCP app, build MCPB bundle"],
+["skill-creator","claude","Create, modify, benchmark skills with variance analysis"],
+["playground","claude","Interactive HTML playgrounds with live preview"],
+["telegram","mcp","2 skills: configure bot token, manage access/allowlists"],
+["code-review","claude","PR review with specialized parallel agents"],
+["feature-dev","claude","Guided feature dev with codebase understanding"]
+].forEach(([n,p,d])=>plGrid2.appendChild(mkCard(n,p,d)));
+plTab.appendChild(plGrid2);
+tabs.plugins=plTab;
+
+// === TAB SWITCHING ===
+Object.values(tabs).forEach(t=>{t.classList.add("hidden");root.appendChild(t)});
+tabs.cc.classList.remove("hidden");
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",function(){
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));this.classList.add("active");
+Object.values(tabs).forEach(t=>t.classList.add("hidden"));tabs[this.dataset.tab].classList.remove("hidden")}));
+</script>
+</body>
+</html>
