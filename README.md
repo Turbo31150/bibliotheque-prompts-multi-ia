@@ -1,5 +1,7 @@
 # 🏛️ PROMPT·VAULT OMEGA (v16.0)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 [![Status: Singularity](https://img.shields.io/badge/Status-Singularity-purple.svg)](#)
 [![Prompts: 397+](https://img.shields.io/badge/Prompts-397+-blue.svg)](#)
 [![Protocol: YOLO v4.0](https://img.shields.io/badge/Protocol-YOLO_v4.0-red.svg)](#)
